@@ -1,0 +1,12 @@
+div.Square {
+  width: 70px;
+  height: 70px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.black {
+    background-color: black;
+  }
+}
