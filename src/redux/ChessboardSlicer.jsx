@@ -14,7 +14,6 @@ const chessboard = createSlice({
     },
     saveSquare: (state, action) => {
       const p = action.payload;
-      //saveSquareClean(state.chessboard, p);
       state.chessboard[p.x][p.y] = p.piece;
     },
     cleanSquare: (state, action) => {
@@ -29,15 +28,10 @@ const chessboard = createSlice({
 });
 
 function saveSquareClean(chessBoard, p) {
-  try {
-    for (let x = 0; x < chessBoard.length; x++) {
-      for (let y = 0; y < chessBoard[x].length; y++) {
-        if (chessBoard[x][y] && chessBoard[x][y].id === p.piece.id) chessBoard[x][y] = null;
-      }
+  for (let x = 0; x < chessBoard.length; x++) {
+    for (let y = 0; y < chessBoard[x].length; y++) {
+      if (chessBoard[x][y] && chessBoard[x][y].id === p.piece.id) chessBoard[x][y] = null;
     }
-  } catch (error) {
-    console.log(error);
-    console.log(p);
   }
 }
 
