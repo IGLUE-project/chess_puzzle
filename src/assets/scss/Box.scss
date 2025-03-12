@@ -1,9 +1,12 @@
 div.Box {
-  height: 600px;
-  width: 200px;
-  padding: 10px;
-  background-color: burlywood;
+  padding: 20px;
   display: flex;
   flex-wrap: wrap;
   align-content: center;
+  background-image: url("/src/assets/images/caja.svg");
+  height: 352px;
+  width: 373px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
