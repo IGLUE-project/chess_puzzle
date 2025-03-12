@@ -14,3 +14,4 @@ export const DEFAULT_CHESSBOARD = [
   [null, null, null, null, null, null, null, null],
   [null, null, null, null, null, null, null, null],
 ];
+export const BOXPOSITION = { x: -1, y: -1 };

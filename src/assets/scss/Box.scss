@@ -1,10 +1,9 @@
 div.Box {
   height: 600px;
   width: 200px;
+  padding: 10px;
   background-color: burlywood;
   display: flex;
-  flex-direction: column;
   flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
+  align-content: center;
 }
