@@ -17,9 +17,10 @@ export default function Square({
 
   return (
     <div
-      onDrop={(e) => handleDrop(e, x, y)}
-      onDragEnter={(e) => handleDragEnter(e, x, y)}
-      onDragLeave={(e) => handleDragLeave(e, x, y)}
+      onDrop={(e) => handleDrop(e, x, y, piece)}
+      onDragEnter={(e) => handleDragEnter(e, x, y, piece)}
+      onDragLeave={(e) => handleDragLeave(e, x, y, piece)}
+      onDragOver={(e) => e.preventDefault()}
       className={`Square ${color}`}
     >
       {piece && <Piece piece={piece} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} />}
