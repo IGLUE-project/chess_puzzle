@@ -6,7 +6,11 @@ import "./../assets/scss/MainScreen.scss";
 import Board from "./Board";
 import Box from "./Box";
 
-export default function MainScreen({ show }) {
+export default function MainScreen({ show, solvePuzzle }) {
+  const dropAudio = document.getElementById("audio_drop");
+  const dragAudio = document.getElementById("audio_grab");
+  const boxAudio = document.getElementById("audio_dropbox");
+
   const dispatch = useDispatch();
   const [pieceDrag, setPieceDrag] = useState(null);
   //Piezas de la caja, se deben cargar desde la config
@@ -14,7 +18,7 @@ export default function MainScreen({ show }) {
 
   //Evento cuando coges una pieza
   const handleDragStart = (e, piece) => {
-    console.log("dragged");
+    dragAudio.play();
     setPieceDrag({ ...piece, class: "dragged" });
     setBoxPieces((pieces) =>
       pieces.map((p) => {
@@ -37,6 +41,8 @@ export default function MainScreen({ show }) {
           return [...prevPieces, { ...piece, class: "" }];
         });
         dispatch(cleanPiece({ piece }));
+        solvePuzzle();
+        boxAudio.play();
       }
     }
     setPieceDrag(null);
@@ -57,9 +63,11 @@ export default function MainScreen({ show }) {
     //compueba que sigue dentro del cuadrado
     if (e.relatedTarget && e.currentTarget.contains(e.relatedTarget)) return;
 
-    if (pieceDrag && pieceDrag.id === piece.id && piece.shadow) {
-      dispatch(cleanSquare({ piece: pieceDrag, x, y }));
-    }
+    setTimeout(() => {
+      if (pieceDrag && pieceDrag.id === piece.id && piece.shadow) {
+        dispatch(cleanSquare({ piece: pieceDrag, x, y }));
+      }
+    }, 50);
   };
 
   //evento cuando sueltas una pieza en un recuadro
@@ -68,7 +76,9 @@ export default function MainScreen({ show }) {
       dispatch(cleanPiece({ piece: pieceDrag }));
       dispatch(saveSquare({ piece: { ...pieceDrag, class: "", position: { x, y } }, x, y }));
       setBoxPieces((prevPieces) => prevPieces.filter((p) => p.id !== pieceDrag.id));
+      dropAudio.play();
       setPieceDrag(null);
+      solvePuzzle();
     }
   };
 
@@ -76,6 +86,9 @@ export default function MainScreen({ show }) {
     <div id="MainScreen" className={`screen_wrapper ${show ? "" : "screen_hidden"}`}>
       <div className="frame">
         <div className="border-frame">
+          <audio id="audio_drop" src="sounds/move-self.mp3" autostart="false" preload="auto" />
+          <audio id="audio_grab" src="sounds/move-check.mp3" autostart="false" preload="auto" />
+          <audio id="audio_dropbox" src="sounds/box.wav" autostart="false" preload="auto" />
           <Board
             handleDrop={handleDrop}
             handleDragEnter={handleDragEnter}
