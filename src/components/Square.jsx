@@ -12,6 +12,7 @@ export default function Square({
   handleDragEnd,
   x,
   y,
+  stylePuzzle
 }) {
   const piece = useSelector((state) => getSquare(state, { x, y }));
 
@@ -23,7 +24,7 @@ export default function Square({
       onDragOver={(e) => e.preventDefault()}
       className={`Square ${color}`}
     >
-      {piece && <Piece piece={piece} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} />}
+      {piece && <Piece piece={piece} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} stylePuzzle={stylePuzzle}/>}
     </div>
   );
 }

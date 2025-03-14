@@ -1,5 +1,4 @@
 div.Box {
-  // padding: 20px;
   display: flex;
   flex-wrap: wrap;
   align-content: center;
@@ -9,4 +8,4 @@ div.Box {
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
-}
+}/*# sourceMappingURL=Box.css.map */

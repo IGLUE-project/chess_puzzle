@@ -1,15 +1,8 @@
-@use "sass:color";
-
-$primary-color: #132633;
-$secondary-color: #2ecc71;
-$border-color: #000000;
-$bg-color: #1d4d84;
-
 .frame {
   display: flex;
   justify-content: center;
   align-items: center;
-   height: 100vh;
+  height: 100vh;
   width: 100%;
 }
 
@@ -17,14 +10,11 @@ $bg-color: #1d4d84;
   width: 80%;
   height: 95vh;
   gap: 12px;
-  // border: 20px solid $primary-color;
   border-radius: 5px;
- 
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   z-index: 3;
-  // outline: 4px solid #000000;
 }
 
 .inner-frame {
@@ -34,14 +24,15 @@ $bg-color: #1d4d84;
   border-radius: 5px;
   background-color: #111;
 }
+
 .reset:hover {
   cursor: pointer;
 }
+
 .bar {
   width: 250px;
   height: 150px;
-  background: linear-gradient(180deg, rgb(25.9214285714, 51.8428571429, 69.5785714286) 0%, #132633 100%);
-
+  background: linear-gradient(180deg, rgb(26, 52, 70) 0%, #132633 100%);
   box-shadow: inset -3px -3px 8px rgba(255, 255, 255, 0.2);
   z-index: 2;
   margin: -10px;
@@ -49,6 +40,7 @@ $bg-color: #1d4d84;
   bottom: 0;
   outline: 4px solid #000000;
 }
+
 .reset {
   width: 100px;
   height: 100px;
@@ -56,6 +48,7 @@ $bg-color: #1d4d84;
   align-items: center;
   justify-content: center;
 }
+
 .box-container {
   width: 300px;
   height: 600px;
@@ -63,15 +56,14 @@ $bg-color: #1d4d84;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  img {
-    width: 300px;
-    position: absolute;
-  }
-  .rojo {
-    width: 20px;
-    height: 20px;
-    background-color: red;
-    z-index: 5;
-  }
 }
+.box-container img {
+  width: 300px;
+  position: absolute;
+}
+.box-container .rojo {
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  z-index: 5;
+}/*# sourceMappingURL=MainScreen.css.map */

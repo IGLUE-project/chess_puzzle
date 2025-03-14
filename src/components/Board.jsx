@@ -1,14 +1,17 @@
 import { useSelector } from "react-redux";
+import React from "react";
 import { getChessboard } from "../redux/ChessboardSliceSelector";
 import Square from "./Square";
 import "../assets/scss/Board.scss";
+import useState from "react";
 
-export default function Board({ handleDragEnter, handleDrop, handleDragStart, handleDragEnd, handleDragLeave }) {
+export default function Board({ handleDragEnter, handleDrop, handleDragStart, handleDragEnd, handleDragLeave, stylePuzzle }) {
   const chessboard = useSelector(getChessboard);
 
   return (
     <div className="Board">
-      <img className="chessboardimg" src="/src/assets/images/chessboard.jpg" alt="chessboard" />
+      
+      <img className="chessboardimg"  src={`/src/assets/images/${stylePuzzle}_chessboard.png`}alt="chessboard" />
       <div className="chessboard">
         {chessboard.map((row, x) => (
           <div className="row" key={x}>
@@ -23,6 +26,7 @@ export default function Board({ handleDragEnter, handleDrop, handleDragStart, ha
                 color={(x + y) % 2 === 1 ? "black" : ""}
                 x={x}
                 y={y}
+                stylePuzzle={stylePuzzle}
               />
             ))}
           </div>

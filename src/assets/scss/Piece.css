@@ -3,15 +3,13 @@ div.Piece {
   height: 52px;
   cursor: move;
   cursor: grab;
-  cursor: -moz-grab;
   cursor: -webkit-grab;
   z-index: 1;
-  &.dragged {
-    opacity: 50%;
-    cursor: grabbing;
-    cursor: -moz-grabbing;
-    cursor: -webkit-grabbing;
-  }
+}
+div.Piece.dragged {
+  opacity: 50%;
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
 }
 
 div.Piece img {
@@ -21,6 +19,5 @@ div.Piece img {
 
 div.Piece:active {
   cursor: grabbing;
-  cursor: -moz-grabbing;
   cursor: -webkit-grabbing;
-}
+}/*# sourceMappingURL=Piece.css.map */

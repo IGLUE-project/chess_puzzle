@@ -1,0 +1,14 @@
+div.Square {
+  width: 58px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+div.Square .Piece img {
+  opacity: 1;
+  z-index: 2;
+  position: absolute;
+  width: 34px;
+  height: 52px;
+}/*# sourceMappingURL=Square.css.map */

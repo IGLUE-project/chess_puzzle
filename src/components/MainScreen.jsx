@@ -11,6 +11,7 @@ export default function MainScreen({ show }) {
   const [pieceDrag, setPieceDrag] = useState(null);
   //Piezas de la caja, se deben cargar desde la config
   const [boxPieces, setBoxPieces] = useState(ALLPICES);
+  const [stylePuzzle, setStylePuzzle] = useState("basic");
 
   //Evento cuando coges una pieza
   const handleDragStart = (e, piece) => {
@@ -73,17 +74,22 @@ export default function MainScreen({ show }) {
   };
 
   return (
-    <div id="MainScreen" className={`screen_wrapper ${show ? "" : "screen_hidden"}`}>
+    <div id="MainScreen" className={`screen_wrapper bg-${stylePuzzle} ${show ? "" : "screen_hidden"}`}>
+           <div className="buttons-container">
+            <button onClick={()=> setStylePuzzle("basic")} className={`button-basic`}>basic</button>
+            <button onClick={()=> setStylePuzzle("futuristic")} className={`button-futuristic`}>futuristic</button>
+            </div>
       <div className="frame">
-        <div className="border-frame">
+        <div className={`border-frame border-frame-${stylePuzzle}`}>
           <Board
             handleDrop={handleDrop}
             handleDragEnter={handleDragEnter}
             handleDragLeave={handleDragLeave}
             handleDragStart={handleDragStart}
             handleDragEnd={handleDragEnd}
+            stylePuzzle={stylePuzzle}
           />
-          <Box boxPieces={boxPieces} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} />
+          <Box boxPieces={boxPieces} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} stylePuzzle={stylePuzzle} />
         </div>
       </div>
     </div>

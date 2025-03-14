@@ -1,0 +1,18 @@
+div.Board {
+  width: 560px;
+  height: 560px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+div.Board div.chessboard {
+  display: flex;
+  position: absolute;
+  z-index: 2;
+}
+div.Board img.chessboardimg {
+  position: absolute;
+  z-index: 1;
+  width: 511px;
+  height: 511px;
+}/*# sourceMappingURL=Board.css.map */
