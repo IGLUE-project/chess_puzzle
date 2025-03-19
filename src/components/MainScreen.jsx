@@ -15,6 +15,7 @@ export default function MainScreen({ show, solvePuzzle }) {
   const [pieceDrag, setPieceDrag] = useState(null);
   //Piezas de la caja, se deben cargar desde la config
   const [boxPieces, setBoxPieces] = useState(ALLPICES);
+  const [stylePuzzle, setStylePuzzle] = useState("basic");
 
   //Evento cuando coges una pieza
   const handleDragStart = (e, piece) => {
@@ -83,20 +84,34 @@ export default function MainScreen({ show, solvePuzzle }) {
   };
 
   return (
-    <div id="MainScreen" className={`screen_wrapper ${show ? "" : "screen_hidden"}`}>
+    <div id="MainScreen" className={`screen_wrapper bg-${stylePuzzle} ${show ? "" : "screen_hidden"}`}>
+      <audio id="audio_drop" src="sounds/move-self.mp3" autostart="false" preload="auto" />
+      <audio id="audio_grab" src="sounds/move-check.mp3" autostart="false" preload="auto" />
+      <audio id="audio_dropbox" src="sounds/box.wav" autostart="false" preload="auto" />
+      <div className="buttons-container">
+        <button onClick={() => setStylePuzzle("basic")} className={`button-basic`}>
+          basic
+        </button>
+        <button onClick={() => setStylePuzzle("futuristic")} className={`button-futuristic`}>
+          futuristic
+        </button>
+      </div>
       <div className="frame">
-        <div className="border-frame">
-          <audio id="audio_drop" src="sounds/move-self.mp3" autostart="false" preload="auto" />
-          <audio id="audio_grab" src="sounds/move-check.mp3" autostart="false" preload="auto" />
-          <audio id="audio_dropbox" src="sounds/box.wav" autostart="false" preload="auto" />
+        <div className={`border-frame border-frame-${stylePuzzle}`}>
           <Board
             handleDrop={handleDrop}
             handleDragEnter={handleDragEnter}
             handleDragLeave={handleDragLeave}
             handleDragStart={handleDragStart}
             handleDragEnd={handleDragEnd}
+            stylePuzzle={stylePuzzle}
           />
-          <Box boxPieces={boxPieces} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} />
+          <Box
+            boxPieces={boxPieces}
+            handleDragStart={handleDragStart}
+            handleDragEnd={handleDragEnd}
+            stylePuzzle={stylePuzzle}
+          />
         </div>
       </div>
     </div>

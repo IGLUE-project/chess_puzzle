@@ -24,6 +24,7 @@ export default function App() {
   const chessboard = useSelector(getChessboard);
   const [fail, setFail] = useState(false);
 
+
   useEffect(() => {
     console.log("useEffect, lets load everything");
     //localStorage.clear();  //For development, clear local storage (comentar y descomentar para desarrollo)

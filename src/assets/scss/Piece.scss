@@ -1,9 +1,11 @@
 div.Piece {
-  width: 40px;
-  height: 60px;
+  width: 34px;
+  height: 52px;
+  cursor: move;
   cursor: grab;
-  transition: transform 0.1s ease-out;
-
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+  z-index: 1;
   &.dragged {
     opacity: 0.3;
     transform: scale(1.1);
