@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import "./../assets/scss/app.scss";
 import "./../assets/scss/modal.scss";
@@ -9,13 +9,37 @@ import * as I18n from "../vendors/I18n.js";
 import * as LocalStorage from "../vendors/Storage.js";
 
 import { GLOBAL_CONFIG } from "../config/config.js";
-import { PAINTING_SCREEN, KEYPAD_SCREEN, SAFE_OPEN_SCREEN, CONTROL_PANEL_SCREEN } from "../constants/constants.jsx";
+import {
+  PAINTING_SCREEN,
+  KEYPAD_SCREEN,
+  SAFE_OPEN_SCREEN,
+  CONTROL_PANEL_SCREEN,
+  CONFIG,
+  ALLPIECES,
+  ONEPIECEEACH,
+  BOXPOSITION,
+  emptyChessboard,
+} from "../constants/constants.jsx";
 
 import MainScreen from "./MainScreen.jsx";
 import ControlPanel from "./ControlPanel.jsx";
 import { getChessboard } from "../redux/ChessboardSliceSelector.jsx";
+import { saveChessboard } from "../redux/ChessboardSlicer.jsx";
 
 let escapp;
+
+const initialConfig = {
+  box: CONFIG.CUSTOMBOX,
+  customBox: [
+    { name: "peon", blanca: false },
+    { name: "torre", blanca: true },
+  ],
+  chessBoard: CONFIG.CUSTOMCHESSBOARD,
+  customChessboard: [
+    { position: "e4", name: "peon", blanca: false },
+    { position: "a1", name: "torre", blanca: true },
+  ],
+};
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -23,9 +47,15 @@ export default function App() {
   const [prevScreen, setPrevScreen] = useState(PAINTING_SCREEN);
   const chessboard = useSelector(getChessboard);
   const [fail, setFail] = useState(false);
-
+  const [config, setConfig] = useState({
+    box: [],
+    chessboard: emptyChessboard(),
+  });
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    loadConfig(initialConfig);
+
     console.log("useEffect, lets load everything");
     //localStorage.clear();  //For development, clear local storage (comentar y descomentar para desarrollo)
     I18n.init(GLOBAL_CONFIG);
@@ -122,10 +152,76 @@ export default function App() {
     saveState();
   }
 
+  function loadConfig(initialConfig) {
+    let newChessboard;
+    let newBox;
+
+    switch (initialConfig.box) {
+      case CONFIG.ALLPIECES:
+        newBox = ALLPIECES;
+        break;
+
+      case CONFIG.ONEPIECEEACH:
+        newBox = ONEPIECEEACH;
+        break;
+
+      case CONFIG.EMPTY:
+        newBox = [];
+        break;
+
+      case CONFIG.CUSTOMBOX:
+        newBox = initialConfig.customBox.map((piece, index) => ({
+          ...piece,
+          id: index,
+          class: "",
+          position: BOXPOSITION,
+        }));
+        break;
+
+      default:
+        newBox = ALLPIECES;
+    }
+
+    switch (initialConfig.chessBoard) {
+      case CONFIG.EMPTY:
+        newChessboard = emptyChessboard();
+        break;
+
+      case CONFIG.CUSTOMCHESSBOARD:
+        newChessboard = emptyChessboard();
+        initialConfig.customChessboard.forEach((piece, index) => {
+          let position = algebraicToCoordinates(piece.position);
+          newChessboard[position.x][position.y] = {
+            ...piece,
+            id: index + newBox.length,
+            class: "",
+            position: position,
+          };
+        });
+        break;
+
+      default:
+        newChessboard = emptyChessboard();
+    }
+
+    setConfig({ chessboard: newChessboard, box: newBox });
+    dispatch(saveChessboard(newChessboard));
+  }
+
+  function algebraicToCoordinates(position) {
+    const column = position[0].toLowerCase();
+    const row = position[1];
+
+    const y = parseInt(row) - 1;
+    const x = column.charCodeAt(0) - "a".charCodeAt(0);
+
+    return { x, y };
+  }
+
   return (
     <div id="firstnode">
       <div className={`main-background ${fail ? "fail" : ""}`}>
-        <MainScreen show={screen === KEYPAD_SCREEN} solvePuzzle={solvePuzzle} />
+        <MainScreen show={screen === KEYPAD_SCREEN} solvePuzzle={solvePuzzle} config={config} />
         <ControlPanel show={screen === CONTROL_PANEL_SCREEN} onOpenScreen={onOpenScreen} />
       </div>
     </div>

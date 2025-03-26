@@ -4,18 +4,15 @@ export const SAFE_OPEN_SCREEN = "safe_open";
 export const CONTROL_PANEL_SCREEN = "control_panel";
 export const KEYPAD_SCREEN = "keypad";
 
-export const DEFAULT_CHESSBOARD = [
-  [null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null],
-];
+export function emptyChessboard() {
+  return Array(8)
+    .fill()
+    .map(() => Array(8).fill(null));
+}
+export const EMPTY_CHESSBOARD = emptyChessboard();
+
 export const BOXPOSITION = { x: -1, y: -1 };
-export const ALLPICES = [
+export const ALLPIECES = [
   { id: 0, name: "peon", blanca: false, class: "", position: BOXPOSITION },
   { id: 1, name: "peon", blanca: false, class: "", position: BOXPOSITION },
   { id: 2, name: "peon", blanca: false, class: "", position: BOXPOSITION },
@@ -49,3 +46,34 @@ export const ALLPICES = [
   { id: 30, name: "rey", blanca: true, class: "", position: BOXPOSITION },
   { id: 31, name: "reina", blanca: true, class: "", position: BOXPOSITION },
 ];
+export const ONEPIECEEACH = [
+  { id: 0, name: "peon", blanca: false, class: "", position: BOXPOSITION },
+  { id: 1, name: "torre", blanca: false, class: "", position: BOXPOSITION },
+  { id: 2, name: "alfil", blanca: false, class: "", position: BOXPOSITION },
+  { id: 3, name: "caballo", blanca: false, class: "", position: BOXPOSITION },
+  { id: 4, name: "rey", blanca: false, class: "", position: BOXPOSITION },
+  { id: 5, name: "reina", blanca: false, class: "", position: BOXPOSITION },
+  { id: 6, name: "peon", blanca: true, class: "", position: BOXPOSITION },
+  { id: 7, name: "torre", blanca: true, class: "", position: BOXPOSITION },
+  { id: 8, name: "alfil", blanca: true, class: "", position: BOXPOSITION },
+  { id: 9, name: "caballo", blanca: true, class: "", position: BOXPOSITION },
+  { id: 10, name: "rey", blanca: true, class: "", position: BOXPOSITION },
+  { id: 11, name: "reina", blanca: true, class: "", position: BOXPOSITION },
+];
+
+export const CONFIG = {
+  ALLPIECES: "all",
+  ONEPIECEEACH: "each",
+  EMPTYBOARD: "empty",
+  CUSTOMBOX: "custom box",
+  CUSTOMCHESSBOARD: "custom chessboard",
+};
+
+export const PIECEMAP = {
+  PEON: "peon",
+  TORRE: "torre",
+  ALFIL: "alfil",
+  CABALLO: "caballo",
+  REINA: "reina",
+  REY: "rey",
+};

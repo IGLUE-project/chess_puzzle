@@ -1,12 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { ALLPICES } from "../constants/constants";
 import { cleanPiece, cleanSquare, saveSquare } from "../redux/ChessboardSlicer";
 import "./../assets/scss/MainScreen.scss";
 import Board from "./Board";
 import Box from "./Box";
 
-export default function MainScreen({ show, solvePuzzle }) {
+export default function MainScreen({ show, solvePuzzle, config }) {
   const dropAudio = document.getElementById("audio_drop");
   const dragAudio = document.getElementById("audio_grab");
   const boxAudio = document.getElementById("audio_dropbox");
@@ -14,8 +13,12 @@ export default function MainScreen({ show, solvePuzzle }) {
   const dispatch = useDispatch();
   const [pieceDrag, setPieceDrag] = useState(null);
   //Piezas de la caja, se deben cargar desde la config
-  const [boxPieces, setBoxPieces] = useState(ALLPICES);
+  const [boxPieces, setBoxPieces] = useState([]);
   const [stylePuzzle, setStylePuzzle] = useState("basic");
+
+  useEffect(() => {
+    setBoxPieces(config.box);
+  }, [config]);
 
   //Evento cuando coges una pieza
   const handleDragStart = (e, piece) => {
