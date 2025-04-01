@@ -9,66 +9,109 @@ export function emptyChessboard() {
     .fill()
     .map(() => Array(8).fill(null));
 }
-export const EMPTY_CHESSBOARD = emptyChessboard();
+export function defaultChessboard() {
+  let chessboard = emptyChessboard();
 
+  chessboard[0] = [
+    { id: 108, name: "torre", blanca: false, class: "", position: { x: 0, y: 0 }, initialPosition: { x: 0, y: 0 } },
+    { id: 109, name: "caballo", blanca: false, class: "", position: { x: 0, y: 1 }, initialPosition: { x: 0, y: 1 } },
+    { id: 110, name: "alfil", blanca: false, class: "", position: { x: 0, y: 2 }, initialPosition: { x: 0, y: 2 } },
+    { id: 111, name: "reina", blanca: false, class: "", position: { x: 0, y: 3 }, initialPosition: { x: 0, y: 3 } },
+    { id: 112, name: "rey", blanca: false, class: "", position: { x: 0, y: 4 }, initialPosition: { x: 0, y: 4 } },
+    { id: 113, name: "alfil", blanca: false, class: "", position: { x: 0, y: 5 }, initialPosition: { x: 0, y: 5 } },
+    { id: 114, name: "caballo", blanca: false, class: "", position: { x: 0, y: 6 }, initialPosition: { x: 0, y: 6 } },
+    { id: 115, name: "torre", blanca: false, class: "", position: { x: 0, y: 7 }, initialPosition: { x: 0, y: 7 } },
+  ];
+  chessboard[1] = Array(8)
+    .fill()
+    .map((_, i) => ({
+      id: i + 100,
+      name: "peon",
+      blanca: false,
+      class: "",
+      position: { x: 1, y: i },
+      initialPosition: { x: 1, y: i },
+    }));
+  chessboard[6] = Array(8)
+    .fill()
+    .map((_, i) => ({
+      id: i + 16 + 100,
+      name: "peon",
+      blanca: true,
+      class: "",
+      position: { x: 6, y: i },
+      initialPosition: { x: 6, y: i },
+    }));
+
+  chessboard[7] = [
+    { id: 124, name: "torre", blanca: true, class: "", position: { x: 7, y: 0 }, initialPosition: { x: 7, y: 0 } },
+    { id: 125, name: "caballo", blanca: true, class: "", position: { x: 7, y: 1 }, initialPosition: { x: 7, y: 1 } },
+    { id: 126, name: "alfil", blanca: true, class: "", position: { x: 7, y: 2 }, initialPosition: { x: 7, y: 2 } },
+    { id: 127, name: "reina", blanca: true, class: "", position: { x: 7, y: 3 }, initialPosition: { x: 7, y: 3 } },
+    { id: 128, name: "rey", blanca: true, class: "", position: { x: 7, y: 4 }, initialPosition: { x: 7, y: 4 } },
+    { id: 129, name: "alfil", blanca: true, class: "", position: { x: 7, y: 5 }, initialPosition: { x: 7, y: 5 } },
+    { id: 130, name: "caballo", blanca: true, class: "", position: { x: 7, y: 6 }, initialPosition: { x: 7, y: 6 } },
+    { id: 131, name: "torre", blanca: true, class: "", position: { x: 7, y: 7 }, initialPosition: { x: 7, y: 7 } },
+  ];
+  return chessboard;
+}
 export const BOXPOSITION = { x: -1, y: -1 };
 export const ALLPIECES = [
-  { id: 0, name: "peon", blanca: false, class: "", position: BOXPOSITION },
-  { id: 1, name: "peon", blanca: false, class: "", position: BOXPOSITION },
-  { id: 2, name: "peon", blanca: false, class: "", position: BOXPOSITION },
-  { id: 3, name: "peon", blanca: false, class: "", position: BOXPOSITION },
-  { id: 4, name: "peon", blanca: false, class: "", position: BOXPOSITION },
-  { id: 5, name: "peon", blanca: false, class: "", position: BOXPOSITION },
-  { id: 6, name: "peon", blanca: false, class: "", position: BOXPOSITION },
-  { id: 7, name: "peon", blanca: false, class: "", position: BOXPOSITION },
-  { id: 8, name: "torre", blanca: false, class: "", position: BOXPOSITION },
-  { id: 9, name: "torre", blanca: false, class: "", position: BOXPOSITION },
-  { id: 10, name: "alfil", blanca: false, class: "", position: BOXPOSITION },
-  { id: 11, name: "alfil", blanca: false, class: "", position: BOXPOSITION },
-  { id: 12, name: "caballo", blanca: false, class: "", position: BOXPOSITION },
-  { id: 13, name: "caballo", blanca: false, class: "", position: BOXPOSITION },
-  { id: 14, name: "rey", blanca: false, class: "", position: BOXPOSITION },
-  { id: 15, name: "reina", blanca: false, class: "", position: BOXPOSITION },
-  { id: 16, name: "peon", blanca: true, class: "", position: BOXPOSITION },
-  { id: 17, name: "peon", blanca: true, class: "", position: BOXPOSITION },
-  { id: 18, name: "peon", blanca: true, class: "", position: BOXPOSITION },
-  { id: 19, name: "peon", blanca: true, class: "", position: BOXPOSITION },
-  { id: 20, name: "peon", blanca: true, class: "", position: BOXPOSITION },
-  { id: 21, name: "peon", blanca: true, class: "", position: BOXPOSITION },
-  { id: 22, name: "peon", blanca: true, class: "", position: BOXPOSITION },
-  { id: 23, name: "peon", blanca: true, class: "", position: BOXPOSITION },
-  { id: 24, name: "torre", blanca: true, class: "", position: BOXPOSITION },
-  { id: 25, name: "torre", blanca: true, class: "", position: BOXPOSITION },
-  { id: 26, name: "alfil", blanca: true, class: "", position: BOXPOSITION },
-  { id: 27, name: "alfil", blanca: true, class: "", position: BOXPOSITION },
-  { id: 28, name: "caballo", blanca: true, class: "", position: BOXPOSITION },
-  { id: 29, name: "caballo", blanca: true, class: "", position: BOXPOSITION },
-  { id: 30, name: "rey", blanca: true, class: "", position: BOXPOSITION },
-  { id: 31, name: "reina", blanca: true, class: "", position: BOXPOSITION },
+  { id: 200, name: "peon", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 201, name: "peon", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 202, name: "peon", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 203, name: "peon", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 204, name: "peon", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 205, name: "peon", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 206, name: "peon", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 207, name: "peon", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 208, name: "torre", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 209, name: "torre", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 210, name: "alfil", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 211, name: "alfil", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 212, name: "caballo", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 213, name: "caballo", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 214, name: "rey", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 215, name: "reina", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 216, name: "peon", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 217, name: "peon", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 218, name: "peon", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 219, name: "peon", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 220, name: "peon", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 221, name: "peon", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 222, name: "peon", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 223, name: "peon", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 224, name: "torre", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 225, name: "torre", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 226, name: "alfil", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 227, name: "alfil", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 228, name: "caballo", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 229, name: "caballo", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 230, name: "rey", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 231, name: "reina", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
 ];
 export const ONEPIECEEACH = [
-  { id: 0, name: "peon", blanca: false, class: "", position: BOXPOSITION },
-  { id: 1, name: "torre", blanca: false, class: "", position: BOXPOSITION },
-  { id: 2, name: "alfil", blanca: false, class: "", position: BOXPOSITION },
-  { id: 3, name: "caballo", blanca: false, class: "", position: BOXPOSITION },
-  { id: 4, name: "rey", blanca: false, class: "", position: BOXPOSITION },
-  { id: 5, name: "reina", blanca: false, class: "", position: BOXPOSITION },
-  { id: 6, name: "peon", blanca: true, class: "", position: BOXPOSITION },
-  { id: 7, name: "torre", blanca: true, class: "", position: BOXPOSITION },
-  { id: 8, name: "alfil", blanca: true, class: "", position: BOXPOSITION },
-  { id: 9, name: "caballo", blanca: true, class: "", position: BOXPOSITION },
-  { id: 10, name: "rey", blanca: true, class: "", position: BOXPOSITION },
-  { id: 11, name: "reina", blanca: true, class: "", position: BOXPOSITION },
+  { id: 300, name: "peon", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 301, name: "torre", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 302, name: "alfil", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 303, name: "caballo", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 304, name: "rey", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 305, name: "reina", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 306, name: "peon", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 307, name: "torre", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 308, name: "alfil", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 309, name: "caballo", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 310, name: "rey", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
+  { id: 311, name: "reina", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
 ];
-
 export const CONFIG = {
   ALLPIECES: "all",
   ONEPIECEEACH: "each",
   EMPTYBOARD: "empty",
   CUSTOMBOX: "custom box",
   CUSTOMCHESSBOARD: "custom chessboard",
+  DEFAULTCHESSBOARD: "default chessboard",
 };
-
 export const PIECEMAP = {
   PEON: "peon",
   TORRE: "torre",

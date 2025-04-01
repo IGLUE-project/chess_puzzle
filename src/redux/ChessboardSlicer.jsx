@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { EMPTY_CHESSBOARD } from "../constants/constants";
+import { emptyChessboard } from "../constants/constants";
 
 const initialState = {
-  chessboard: EMPTY_CHESSBOARD,
+  chessboard: emptyChessboard(),
 };
 
 const chessboard = createSlice({

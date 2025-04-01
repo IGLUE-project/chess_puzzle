@@ -18,9 +18,9 @@ export default function Board({
     <div className="Board">
       <img className="chessboardimg" src={`/src/assets/images/${stylePuzzle}_chessboard.png`} alt="chessboard" />
       <div className="chessboard">
-        {chessboard.map((row, x) => (
-          <div className="row" key={x}>
-            {row.map((square, y) => (
+        {chessboard.map((row, y) => (
+          <div className="row" key={y}>
+            {row.map((square, x) => (
               <Square
                 handleDrop={handleDrop}
                 handleDragEnter={handleDragEnter}

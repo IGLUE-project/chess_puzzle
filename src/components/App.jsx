@@ -1,34 +1,33 @@
-import React from "react";
-import { useState, useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import "./../assets/scss/app.scss";
 import "./../assets/scss/modal.scss";
 
 import * as I18n from "../vendors/I18n.js";
-import * as LocalStorage from "../vendors/Storage.js";
 
 import { GLOBAL_CONFIG } from "../config/config.js";
 import {
-  PAINTING_SCREEN,
-  KEYPAD_SCREEN,
-  SAFE_OPEN_SCREEN,
-  CONTROL_PANEL_SCREEN,
-  CONFIG,
   ALLPIECES,
-  ONEPIECEEACH,
   BOXPOSITION,
+  CONFIG,
+  CONTROL_PANEL_SCREEN,
+  defaultChessboard,
   emptyChessboard,
+  KEYPAD_SCREEN,
+  ONEPIECEEACH,
+  PAINTING_SCREEN,
 } from "../constants/constants.jsx";
 
-import MainScreen from "./MainScreen.jsx";
-import ControlPanel from "./ControlPanel.jsx";
 import { getChessboard } from "../redux/ChessboardSliceSelector.jsx";
 import { saveChessboard } from "../redux/ChessboardSlicer.jsx";
+import ControlPanel from "./ControlPanel.jsx";
+import MainScreen from "./MainScreen.jsx";
 
 let escapp;
 
 const initialConfig = {
+  solutionLength: 4,
   box: CONFIG.CUSTOMBOX,
   customBox: [
     { name: "peon", blanca: false },
@@ -36,8 +35,10 @@ const initialConfig = {
   ],
   chessBoard: CONFIG.CUSTOMCHESSBOARD,
   customChessboard: [
-    { position: "e4", name: "peon", blanca: false },
-    { position: "a1", name: "torre", blanca: true },
+    { position: "a7", name: "peon", blanca: false },
+    { position: "b7", name: "peon", blanca: false },
+    { position: "c7", name: "peon", blanca: false },
+    { position: "d7", name: "torre", blanca: true },
   ],
 };
 
@@ -46,30 +47,18 @@ export default function App() {
   const [screen, setScreen] = useState(KEYPAD_SCREEN);
   const [prevScreen, setPrevScreen] = useState(PAINTING_SCREEN);
   const chessboard = useSelector(getChessboard);
+  const [boxPieces, setBoxPieces] = useState([]);
+  const [solution, setSolution] = useState([]);
   const [fail, setFail] = useState(false);
-  const [config, setConfig] = useState({
-    box: [],
-    chessboard: emptyChessboard(),
-  });
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     loadConfig(initialConfig);
 
-    console.log("useEffect, lets load everything");
     //localStorage.clear();  //For development, clear local storage (comentar y descomentar para desarrollo)
     I18n.init(GLOBAL_CONFIG);
-    LocalStorage.init(GLOBAL_CONFIG.localStorageKey);
-    GLOBAL_CONFIG.escapp.onNewErStateCallback = (er_state) => {
-      console.log("New ER state received from ESCAPP", er_state);
-      restoreState(er_state);
-    };
-    GLOBAL_CONFIG.escapp.onErRestartCallback = (er_state) => {
-      // reset(); //For development
-      console.log("Escape Room Restart received from ESCAPP", er_state);
-      LocalStorage.removeSetting("app_state");
-      LocalStorage.removeSetting("played_door");
-    };
+
     escapp = new ESCAPP(GLOBAL_CONFIG.escapp);
     // escapp.validate((success, er_state) => {
     //   console.log("ESCAPP validation", success, er_state);
@@ -86,70 +75,20 @@ export default function App() {
     setLoading(false);
   }, []);
 
-  function solvePuzzle() {
-    //XXX DUDA: a este método solo se le llama cuando sale el boton continue, que es cuando se han resuelto todos los puzzles
-    console.log("Solving puzzle", chessboard);
-    let solutionstr = JSON.stringify(chessboard);
+  function solvePuzzle(solution) {
+    console.log("Solving puzzle", solution);
 
-    //XXX DUDA: en el de MalditaER se guarda en localstorage con la clave "safebox_password", quizá sirva por si se vuelve a recargar o se vuelve a la app, que el estado se pierde.
-    //lo mejor seria guardar en localstorage todo el estado de la app cuando algo cambia y asi al volver a cargar la app se restaura el estado en el useEffect
-
-    escapp.submitPuzzle(GLOBAL_CONFIG.escapp.puzzleId, solutionstr, {}, (success) => {
+    escapp.submitPuzzle(GLOBAL_CONFIG.escapp.puzzleId, solution, {}, (success) => {
       if (success) {
         //mensaje de ganar o siguiente escena
       }
     });
   }
 
-  function reset() {
-    escapp.reset();
-    localStorage.clear();
-  }
-
-  function restoreState(er_state) {
-    console.log("Restoring state", er_state);
-    if (typeof er_state !== "undefined" && er_state.puzzlesSolved.length > 0) {
-      let lastPuzzleSolved = Math.max.apply(null, er_state.puzzlesSolved);
-      if (lastPuzzleSolved >= GLOBAL_CONFIG.escapp.puzzleId) {
-        //puzzle superado, abrimos la caja fuerte
-        setScreen(SAFE_OPEN_SCREEN);
-        setPrevScreen(PAINTING_SCREEN);
-      } else {
-        //puzzle no superado, miramos en localStorage en qué pantalla estábamos
-        let localstateToRestore = LocalStorage.getSetting("app_state");
-        console.log("Restoring screen from local state", localstateToRestore);
-        if (localstateToRestore) {
-          setScreen(localstateToRestore.screen);
-          setPrevScreen(localstateToRestore.prevScreen);
-        }
-      }
-      setLoading(false);
-    } else {
-      restoreLocalState();
-    }
-  }
-
-  function saveState() {
-    console.log("Saving state to local storage");
-    let currentState = { screen: screen, prevScreen: prevScreen };
-    LocalStorage.saveSetting("app_state", currentState);
-  }
-
-  function restoreLocalState() {
-    let stateToRestore = LocalStorage.getSetting("app_state");
-    console.log("Restoring local state", stateToRestore);
-    if (stateToRestore) {
-      setScreen(stateToRestore.screen);
-      setPrevScreen(stateToRestore.prevScreen);
-      setLoading(false);
-    }
-  }
-
   function onOpenScreen(newscreen_name) {
     console.log("Opening screen", newscreen_name);
     setPrevScreen(screen);
     setScreen(newscreen_name);
-    saveState();
   }
 
   function loadConfig(initialConfig) {
@@ -175,6 +114,7 @@ export default function App() {
           id: index,
           class: "",
           position: BOXPOSITION,
+          initialPosition: BOXPOSITION,
         }));
         break;
 
@@ -186,16 +126,20 @@ export default function App() {
       case CONFIG.EMPTY:
         newChessboard = emptyChessboard();
         break;
+      case CONFIG.DEFAULTCHESSBOARD:
+        newChessboard = defaultChessboard();
+        break;
 
       case CONFIG.CUSTOMCHESSBOARD:
         newChessboard = emptyChessboard();
         initialConfig.customChessboard.forEach((piece, index) => {
-          let position = algebraicToCoordinates(piece.position);
+          let position = positionToCoordinates(piece.position);
           newChessboard[position.x][position.y] = {
             ...piece,
             id: index + newBox.length,
             class: "",
             position: position,
+            initialPosition: position,
           };
         });
         break;
@@ -204,24 +148,72 @@ export default function App() {
         newChessboard = emptyChessboard();
     }
 
-    setConfig({ chessboard: newChessboard, box: newBox });
+    setBoxPieces(newBox);
     dispatch(saveChessboard(newChessboard));
   }
 
-  function algebraicToCoordinates(position) {
+  function positionToCoordinates(position) {
     const column = position[0].toLowerCase();
     const row = position[1];
 
-    const y = parseInt(row) - 1;
-    const x = column.charCodeAt(0) - "a".charCodeAt(0);
+    const x = parseInt(row) - 1;
+    const y = column.charCodeAt(0) - "a".charCodeAt(0);
 
     return { x, y };
+  }
+  function coordinatesToPosition(x, y) {
+    if (x === -1 && y === -1) return "box";
+    const column = String.fromCharCode("a".charCodeAt(0) + y);
+    const row = (x + 1).toString();
+
+    return column + row;
+  }
+
+  useEffect(() => {
+    const movedPieces = chessboard
+      .flat()
+      .filter(
+        (piece) =>
+          piece !== null &&
+          piece.class === "" &&
+          (piece.position.x !== piece.initialPosition.x || piece.position.y !== piece.initialPosition.y),
+      );
+
+    const movedBoxPieces = boxPieces.filter(
+      (piece) =>
+        piece !== null &&
+        piece.class === "" &&
+        (piece.position.x !== piece.initialPosition.x || piece.position.y !== piece.initialPosition.y),
+    );
+
+    const updatedSolution = [...movedPieces, ...movedBoxPieces];
+
+    if (JSON.stringify(updatedSolution) !== JSON.stringify(solution)) {
+      setSolution(updatedSolution);
+    }
+  }, [chessboard, boxPieces]);
+  useEffect(() => {
+    if (solution.length === initialConfig.solutionLength) {
+      solvePuzzle(parseSolution(solution));
+    }
+  }, [solution]);
+
+  function parseSolution(solution) {
+    return solution
+      .map(
+        (piece) =>
+          `${piece.name},${coordinatesToPosition(
+            piece.initialPosition.x,
+            piece.initialPosition.y,
+          )},${coordinatesToPosition(piece.position.x, piece.position.y)},${piece.blanca}`,
+      )
+      .join(";");
   }
 
   return (
     <div id="firstnode">
       <div className={`main-background ${fail ? "fail" : ""}`}>
-        <MainScreen show={screen === KEYPAD_SCREEN} solvePuzzle={solvePuzzle} config={config} />
+        <MainScreen show={screen === KEYPAD_SCREEN} boxPieces={boxPieces} setBoxPieces={setBoxPieces} />
         <ControlPanel show={screen === CONTROL_PANEL_SCREEN} onOpenScreen={onOpenScreen} />
       </div>
     </div>
