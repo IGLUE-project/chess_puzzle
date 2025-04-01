@@ -210,10 +210,19 @@ export default function App() {
       .join(";");
   }
 
+  const resetPieces = () => {
+    loadConfig(initialConfig);
+  };
+
   return (
     <div id="firstnode">
       <div className={`main-background ${fail ? "fail" : ""}`}>
-        <MainScreen show={screen === KEYPAD_SCREEN} boxPieces={boxPieces} setBoxPieces={setBoxPieces} />
+        <MainScreen
+          show={screen === KEYPAD_SCREEN}
+          boxPieces={boxPieces}
+          setBoxPieces={setBoxPieces}
+          resetPieces={resetPieces}
+        />
         <ControlPanel show={screen === CONTROL_PANEL_SCREEN} onOpenScreen={onOpenScreen} />
       </div>
     </div>
