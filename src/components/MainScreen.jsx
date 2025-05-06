@@ -1,16 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { cleanPiece, cleanSquare, saveSquare } from "../redux/ChessboardSlicer";
 import "./../assets/scss/MainScreen.scss";
 import Board from "./Board";
 import Box from "./Box";
-import { BOXPOSITION } from "../constants/constants";
+import { BOXPOSITION, THEMES } from "../constants/constants";
 
-export default function MainScreen({ show, boxPieces, setBoxPieces, resetPieces }) {
-  const dropAudio = document.getElementById("audio_drop");
-  const dragAudio = document.getElementById("audio_grab");
-  const boxAudio = document.getElementById("audio_dropbox");
-  const resetAudio = document.getElementById("audio_reset");
+let dropAudio;
+let dragAudio;
+let boxAudio;
+let resetAudio;
+
+export default function MainScreen({ show, boxPieces, setBoxPieces, resetPieces, theme, changeTheme }) {
+  useEffect(() => {
+    dropAudio = document.getElementById("audio_drop");
+    dragAudio = document.getElementById("audio_grab");
+    boxAudio = document.getElementById("audio_dropbox");
+    resetAudio = document.getElementById("audio_reset");
+  }, [theme]);
 
   const dispatch = useDispatch();
   const [pieceDrag, setPieceDrag] = useState(null);
@@ -86,16 +93,16 @@ export default function MainScreen({ show, boxPieces, setBoxPieces, resetPieces 
   }
 
   return (
-    <div id="MainScreen" className={`screen_wrapper bg-${stylePuzzle} ${show ? "" : "screen_hidden"}`}>
-      <audio id="audio_drop" src="sounds/move-self.mp3" autostart="false" preload="auto" />
-      <audio id="audio_grab" src="sounds/move-check.mp3" autostart="false" preload="auto" />
-      <audio id="audio_dropbox" src="sounds/box.wav" autostart="false" preload="auto" />
-      <audio id="audio_reset" src="sounds/reset.mp3" autostart="false" preload="auto" />
+    <div id="MainScreen" className={`screen_wrapper bg-${theme.name} ${show ? "" : "screen_hidden"}`}>
+      <audio id="audio_drop" src={theme.dropAudio} autostart="false" preload="auto" />
+      <audio id="audio_grab" src={theme.dragAudio} autostart="false" preload="auto" />
+      <audio id="audio_dropbox" src={theme.discardAudio} autostart="false" preload="auto" />
+      <audio id="audio_reset" src={theme.resetAudio} autostart="false" preload="auto" />
       <div className="buttons-container">
-        <button onClick={() => setStylePuzzle("basic")} className={`button-basic`}>
+        <button onClick={() => changeTheme(THEMES.BASIC)} className={`button-basic`}>
           basic
         </button>
-        <button onClick={() => setStylePuzzle("futuristic")} className={`button-futuristic`}>
+        <button onClick={() => changeTheme(THEMES.FUTURISTIC)} className={`button-futuristic`}>
           futuristic
         </button>
         <button onClick={() => resetPiecesButton()} className={`button-futuristic`}>
@@ -103,21 +110,16 @@ export default function MainScreen({ show, boxPieces, setBoxPieces, resetPieces 
         </button>
       </div>
       <div className="frame">
-        <div className={`border-frame border-frame-${stylePuzzle}`}>
+        <div className={`border-frame border-frame-${theme.name}`}>
           <Board
             handleDrop={handleDrop}
             handleDragEnter={handleDragEnter}
             handleDragLeave={handleDragLeave}
             handleDragStart={handleDragStart}
             handleDragEnd={handleDragEnd}
-            stylePuzzle={stylePuzzle}
+            theme={theme}
           />
-          <Box
-            boxPieces={boxPieces}
-            handleDragStart={handleDragStart}
-            handleDragEnd={handleDragEnd}
-            stylePuzzle={stylePuzzle}
-          />
+          <Box boxPieces={boxPieces} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} theme={theme} />
         </div>
       </div>
     </div>

@@ -120,3 +120,49 @@ export const PIECEMAP = {
   REINA: "reina",
   REY: "rey",
 };
+
+export const THEMES = {
+  BASIC: "basic",
+  FUTURISTIC: "futuristic",
+  CONTEMPORARY: "contemporary",
+  ANCIENT: "ancient",
+};
+
+export const THEME_ASSETS = {
+  [THEMES.ANCIENT]: {
+    backgroundImg: "",
+    chessboardImg: "/src/assets/images/basic_chessboard.png",
+    boxImg: "/src/assets/images/basic_box.svg",
+    dragAudio: "sounds/move-check.mp3",
+    dropAudio: "sounds/move-self.mp3",
+    resetAudio: "sounds/reset.mp3",
+    discardAudio: "sounds/box.wav",
+  },
+  [THEMES.BASIC]: {
+    backgroundImg: "",
+    chessboardImg: "/src/assets/images/basic_chessboard.png",
+    boxImg: "/src/assets/images/basic_box.svg",
+    dragAudio: "sounds/move-check.mp3",
+    dropAudio: "sounds/move-self.mp3",
+    resetAudio: "sounds/reset.mp3",
+    discardAudio: "sounds/box.wav",
+  },
+  [THEMES.CONTEMPORARY]: {
+    backgroundImg: "",
+    chessboardImg: "/src/assets/images/basic_chessboard.png",
+    boxImg: "/src/assets/images/basic_box.svg",
+    dragAudio: "sounds/move-check.mp3",
+    dropAudio: "sounds/move-self.mp3",
+    resetAudio: "sounds/reset.mp3",
+    discardAudio: "sounds/box.wav",
+  },
+  [THEMES.FUTURISTIC]: {
+    backgroundImg: "/src/assets/images/futuristic_background_alt.png",
+    chessboardImg: "/src/assets/images/futuristic_chessboard.png",
+    boxImg: "/src/assets/images/futuristic_box.svg",
+    dragAudio: "sounds/move-check.mp3",
+    dropAudio: "sounds/move-self.mp3",
+    resetAudio: "sounds/reset.mp3",
+    discardAudio: "sounds/box.wav",
+  },
+};

@@ -1,6 +1,6 @@
 import "../assets/scss/Piece.scss";
 
-export default function Piece({ piece, handleDragStart, handleDragEnd, stylePuzzle }) {
+export default function Piece({ piece, handleDragStart, handleDragEnd, theme }) {
   const img = piece.blanca ? piece.name : `${piece.name}_negro`;
 
   return (
@@ -9,7 +9,7 @@ export default function Piece({ piece, handleDragStart, handleDragEnd, stylePuzz
         draggable
         onDragStart={(e) => handleDragStart(e, piece)}
         onDragEnd={(e) => handleDragEnd(e, piece)}
-        src={`/src/assets/images/${img}_${stylePuzzle}.png`}
+        src={`/src/assets/images/${img}_${theme.name}.png`}
         alt={piece.name}
       />
     </div>

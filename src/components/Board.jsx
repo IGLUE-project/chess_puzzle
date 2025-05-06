@@ -4,19 +4,13 @@ import { getChessboard } from "../redux/ChessboardSliceSelector";
 import Square from "./Square";
 import "../assets/scss/Board.scss";
 
-export default function Board({
-  handleDragEnter,
-  handleDrop,
-  handleDragStart,
-  handleDragEnd,
-  handleDragLeave,
-  stylePuzzle,
-}) {
+export default function Board({ handleDragEnter, handleDrop, handleDragStart, handleDragEnd, handleDragLeave, theme }) {
   const chessboard = useSelector(getChessboard);
 
   return (
     <div className="Board">
-      <img className="chessboardimg" src={`/src/assets/images/${stylePuzzle}_chessboard.png`} alt="chessboard" />
+      <img className="chessboardimg" src={theme.chessboardImg} alt="chessboard" />
+
       <div className="chessboard">
         {chessboard.map((row, y) => (
           <div className="row" key={y}>
@@ -31,7 +25,7 @@ export default function Board({
                 color={(x + y) % 2 === 1 ? "black" : ""}
                 x={x}
                 y={y}
-                stylePuzzle={stylePuzzle}
+                theme={theme}
               />
             ))}
           </div>

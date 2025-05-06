@@ -17,6 +17,8 @@ import {
   KEYPAD_SCREEN,
   ONEPIECEEACH,
   PAINTING_SCREEN,
+  THEME_ASSETS,
+  THEMES,
 } from "../constants/constants.jsx";
 
 import { getChessboard } from "../redux/ChessboardSliceSelector.jsx";
@@ -27,8 +29,11 @@ import MainScreen from "./MainScreen.jsx";
 let escapp;
 
 const initialConfig = {
-  solutionLength: 4,
-  box: CONFIG.CUSTOMBOX,
+  config: {
+    theme: THEMES.BASIC,
+    solutionLength: 4,
+  },
+  box: CONFIG.ALLPIECES,
   customBox: [
     { name: "peon", blanca: false },
     { name: "torre", blanca: true },
@@ -50,6 +55,7 @@ export default function App() {
   const [boxPieces, setBoxPieces] = useState([]);
   const [solution, setSolution] = useState([]);
   const [fail, setFail] = useState(false);
+  const [config, setConfig] = useState();
 
   const dispatch = useDispatch();
 
@@ -91,11 +97,19 @@ export default function App() {
     setScreen(newscreen_name);
   }
 
-  function loadConfig(initialConfig) {
+  function loadConfig({ config, box, customBox, chessBoard, customChessboard }) {
     let newChessboard;
     let newBox;
 
-    switch (initialConfig.box) {
+    let configuration = {
+      ...config,
+      theme: {
+        name: config.theme,
+        ...(THEME_ASSETS[config.theme] || {}),
+      },
+    };
+
+    switch (box) {
       case CONFIG.ALLPIECES:
         newBox = ALLPIECES;
         break;
@@ -109,7 +123,7 @@ export default function App() {
         break;
 
       case CONFIG.CUSTOMBOX:
-        newBox = initialConfig.customBox.map((piece, index) => ({
+        newBox = customBox.map((piece, index) => ({
           ...piece,
           id: index,
           class: "",
@@ -122,7 +136,7 @@ export default function App() {
         newBox = ALLPIECES;
     }
 
-    switch (initialConfig.chessBoard) {
+    switch (chessBoard) {
       case CONFIG.EMPTY:
         newChessboard = emptyChessboard();
         break;
@@ -132,7 +146,7 @@ export default function App() {
 
       case CONFIG.CUSTOMCHESSBOARD:
         newChessboard = emptyChessboard();
-        initialConfig.customChessboard.forEach((piece, index) => {
+        customChessboard.forEach((piece, index) => {
           let position = positionToCoordinates(piece.position);
           newChessboard[position.x][position.y] = {
             ...piece,
@@ -148,6 +162,7 @@ export default function App() {
         newChessboard = emptyChessboard();
     }
 
+    setConfig(configuration);
     setBoxPieces(newBox);
     dispatch(saveChessboard(newChessboard));
   }
@@ -193,7 +208,7 @@ export default function App() {
     }
   }, [chessboard, boxPieces]);
   useEffect(() => {
-    if (solution.length === initialConfig.solutionLength) {
+    if (config && solution.length === config.solutionLength) {
       solvePuzzle(parseSolution(solution));
     }
   }, [solution]);
@@ -213,17 +228,24 @@ export default function App() {
   const resetPieces = () => {
     loadConfig(initialConfig);
   };
+  const changeTheme = (theme) => {
+    initialConfig.config.theme = theme;
+    loadConfig(initialConfig);
+  };
 
   return (
     <div id="firstnode">
       <div className={`main-background ${fail ? "fail" : ""}`}>
-        <MainScreen
-          show={screen === KEYPAD_SCREEN}
-          boxPieces={boxPieces}
-          setBoxPieces={setBoxPieces}
-          resetPieces={resetPieces}
-        />
-        <ControlPanel show={screen === CONTROL_PANEL_SCREEN} onOpenScreen={onOpenScreen} />
+        {config && (
+          <MainScreen
+            show={screen === KEYPAD_SCREEN}
+            boxPieces={boxPieces}
+            setBoxPieces={setBoxPieces}
+            resetPieces={resetPieces}
+            theme={config.theme}
+            changeTheme={changeTheme}
+          />
+        )}
       </div>
     </div>
   );
