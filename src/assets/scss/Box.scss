@@ -1,12 +1,18 @@
 div.Box {
-  // padding: 20px;
   display: flex;
   flex-wrap: wrap;
   align-content: center;
-  padding: 40px;
-  height: 252px;
-  width: 283px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
+
+  div.square {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    div.Piece {
+      width: 100%;
+      height: 100%;
+    }
+  }
 }

@@ -12,6 +12,14 @@ let boxAudio;
 let resetAudio;
 
 export default function MainScreen({ show, boxPieces, setBoxPieces, resetPieces, theme, changeTheme }) {
+  const dispatch = useDispatch();
+  const [pieceDrag, setPieceDrag] = useState(null);
+  const [stylePuzzle, setStylePuzzle] = useState("basic");
+  const [size, setSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
   useEffect(() => {
     dropAudio = document.getElementById("audio_drop");
     dragAudio = document.getElementById("audio_grab");
@@ -19,9 +27,27 @@ export default function MainScreen({ show, boxPieces, setBoxPieces, resetPieces,
     resetAudio = document.getElementById("audio_reset");
   }, [theme]);
 
-  const dispatch = useDispatch();
-  const [pieceDrag, setPieceDrag] = useState(null);
-  const [stylePuzzle, setStylePuzzle] = useState("basic");
+  useEffect(() => {
+    const handleResize = () => {
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+
+      const aspectRatio = 16 / 9;
+      let width = windowWidth * 0.9;
+      let height = width / aspectRatio;
+
+      if (height > windowHeight * 0.9) {
+        height = windowHeight * 0.9;
+        width = height * aspectRatio;
+      }
+      console.log("width", width, "height", height);
+      setSize({ width, height });
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   //Evento cuando coges una pieza
   const handleDragStart = (e, piece) => {
@@ -93,11 +119,11 @@ export default function MainScreen({ show, boxPieces, setBoxPieces, resetPieces,
   }
 
   return (
-    <div id="MainScreen" className={`screen_wrapper bg-${theme.name} ${show ? "" : "screen_hidden"}`}>
-      <audio id="audio_drop" src={theme.dropAudio} autostart="false" preload="auto" />
-      <audio id="audio_grab" src={theme.dragAudio} autostart="false" preload="auto" />
-      <audio id="audio_dropbox" src={theme.discardAudio} autostart="false" preload="auto" />
-      <audio id="audio_reset" src={theme.resetAudio} autostart="false" preload="auto" />
+    <div
+      id="MainScreen"
+      className={`screen_wrapper bg-${theme.name} ${show ? "" : "screen_hidden"}`}
+      style={{ backgroundImage: `url(${theme.backgroundImg})` }}
+    >
       <div className="buttons-container">
         <button onClick={() => changeTheme(THEMES.BASIC)} className={`button-basic`}>
           basic
@@ -110,7 +136,7 @@ export default function MainScreen({ show, boxPieces, setBoxPieces, resetPieces,
         </button>
       </div>
       <div className="frame">
-        <div className={`border-frame border-frame-${theme.name}`}>
+        <div className={`border-frame border-frame-${theme.name}`} style={{ gap: size.height * 0.05 }}>
           <Board
             handleDrop={handleDrop}
             handleDragEnter={handleDragEnter}
@@ -118,10 +144,23 @@ export default function MainScreen({ show, boxPieces, setBoxPieces, resetPieces,
             handleDragStart={handleDragStart}
             handleDragEnd={handleDragEnd}
             theme={theme}
+            size={size}
           />
-          <Box boxPieces={boxPieces} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} theme={theme} />
+          <Box
+            boxPieces={boxPieces}
+            handleDragStart={handleDragStart}
+            handleDragEnd={handleDragEnd}
+            theme={theme}
+            size={size}
+          />
         </div>
       </div>
+      <>
+        <audio id="audio_drop" src={theme.dropAudio} autostart="false" preload="auto" />
+        <audio id="audio_grab" src={theme.dragAudio} autostart="false" preload="auto" />
+        <audio id="audio_dropbox" src={theme.discardAudio} autostart="false" preload="auto" />
+        <audio id="audio_reset" src={theme.resetAudio} autostart="false" preload="auto" />
+      </>
     </div>
   );
 }

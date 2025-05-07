@@ -1,18 +1,20 @@
 div.Board {
-  width: 560px;
-  height: 560px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+
   div.chessboard {
+    height: 100%;
     display: flex;
-    position: absolute;
+    position: relative;
     z-index: 2;
-  }
-  img.chessboardimg {
-    position: absolute;
-    z-index: 1;
-    width: 511px;
-    height: 511px;
+    aspect-ratio: 1;
+    justify-content: center;
+    align-items: center;
+
+    .row {
+      height: 100%;
+      width: 100%;
+    }
   }
 }

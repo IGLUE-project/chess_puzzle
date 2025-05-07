@@ -4,12 +4,28 @@ import { getChessboard } from "../redux/ChessboardSliceSelector";
 import Square from "./Square";
 import "../assets/scss/Board.scss";
 
-export default function Board({ handleDragEnter, handleDrop, handleDragStart, handleDragEnd, handleDragLeave, theme }) {
+export default function Board({
+  handleDragEnter,
+  handleDrop,
+  handleDragStart,
+  handleDragEnd,
+  handleDragLeave,
+  theme,
+  size,
+}) {
   const chessboard = useSelector(getChessboard);
 
   return (
-    <div className="Board">
-      <img className="chessboardimg" src={theme.chessboardImg} alt="chessboard" />
+    <div
+      className="Board"
+      style={{
+        backgroundImage: `url(${theme.chessboardImg})`,
+        height: size.height * 0.7,
+        width: size.height * 0.7,
+        padding: size.height * 0.04,
+      }}
+    >
+      {/* <img className="chessboardimg" src={theme.chessboardImg} alt="chessboard" /> */}
 
       <div className="chessboard">
         {chessboard.map((row, y) => (

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import "./../assets/scss/app.scss";
 import "./../assets/scss/modal.scss";
+import "./../assets/scss/stylePuzzle.scss";
 
 import * as I18n from "../vendors/I18n.js";
 
@@ -11,7 +12,6 @@ import {
   ALLPIECES,
   BOXPOSITION,
   CONFIG,
-  CONTROL_PANEL_SCREEN,
   defaultChessboard,
   emptyChessboard,
   KEYPAD_SCREEN,
@@ -23,7 +23,6 @@ import {
 
 import { getChessboard } from "../redux/ChessboardSliceSelector.jsx";
 import { saveChessboard } from "../redux/ChessboardSlicer.jsx";
-import ControlPanel from "./ControlPanel.jsx";
 import MainScreen from "./MainScreen.jsx";
 
 let escapp;

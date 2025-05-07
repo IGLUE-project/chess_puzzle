@@ -130,7 +130,7 @@ export const THEMES = {
 
 export const THEME_ASSETS = {
   [THEMES.ANCIENT]: {
-    backgroundImg: "",
+    backgroundImg: "/src/assets/images/wooden_table.png",
     chessboardImg: "/src/assets/images/basic_chessboard.png",
     boxImg: "/src/assets/images/basic_box.svg",
     dragAudio: "sounds/move-check.mp3",
@@ -139,7 +139,7 @@ export const THEME_ASSETS = {
     discardAudio: "sounds/box.wav",
   },
   [THEMES.BASIC]: {
-    backgroundImg: "",
+    backgroundImg: "/src/assets/images/wooden_table.png",
     chessboardImg: "/src/assets/images/basic_chessboard.png",
     boxImg: "/src/assets/images/basic_box.svg",
     dragAudio: "sounds/move-check.mp3",
@@ -148,7 +148,7 @@ export const THEME_ASSETS = {
     discardAudio: "sounds/box.wav",
   },
   [THEMES.CONTEMPORARY]: {
-    backgroundImg: "",
+    backgroundImg: "/src/assets/images/wooden_table.png",
     chessboardImg: "/src/assets/images/basic_chessboard.png",
     boxImg: "/src/assets/images/basic_box.svg",
     dragAudio: "sounds/move-check.mp3",
@@ -157,7 +157,7 @@ export const THEME_ASSETS = {
     discardAudio: "sounds/box.wav",
   },
   [THEMES.FUTURISTIC]: {
-    backgroundImg: "/src/assets/images/futuristic_background_alt.png",
+    backgroundImg: "/src/assets/images/background_futuristic_alt.png",
     chessboardImg: "/src/assets/images/futuristic_chessboard.png",
     boxImg: "/src/assets/images/futuristic_box.svg",
     dragAudio: "sounds/move-check.mp3",
