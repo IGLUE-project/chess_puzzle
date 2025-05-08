@@ -40,7 +40,6 @@ export default function MainScreen({ show, boxPieces, setBoxPieces, resetPieces,
         height = windowHeight * 0.9;
         width = height * aspectRatio;
       }
-      console.log("width", width, "height", height);
       setSize({ width, height });
     };
 
