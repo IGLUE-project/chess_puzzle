@@ -130,9 +130,9 @@ export const THEMES = {
 
 export const THEME_ASSETS = {
   [THEMES.ANCIENT]: {
-    backgroundImg: "/src/assets/images/wooden_table.png",
-    chessboardImg: "/src/assets/images/basic_chessboard.png",
-    boxImg: "/src/assets/images/basic_box.svg",
+    backgroundImg: "/src/assets/images/ancient_table.png",
+    chessboardImg: "/src/assets/images/ancient_chessboard.png",
+    boxImg: "/src/assets/images/ancient_box.png",
     dragAudio: "sounds/move-check.mp3",
     dropAudio: "sounds/move-self.mp3",
     resetAudio: "sounds/reset.mp3",

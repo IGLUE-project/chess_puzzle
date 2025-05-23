@@ -29,7 +29,7 @@ let escapp;
 
 const initialConfig = {
   config: {
-    theme: THEMES.BASIC,
+    theme: THEMES.ANCIENT,
     solutionLength: 4,
   },
   box: CONFIG.ALLPIECES,
@@ -37,7 +37,7 @@ const initialConfig = {
     { name: "peon", blanca: false },
     { name: "torre", blanca: true },
   ],
-  chessBoard: CONFIG.CUSTOMCHESSBOARD,
+  chessBoard: CONFIG.DEFAULTCHESSBOARD,
   customChessboard: [
     { position: "a7", name: "peon", blanca: false },
     { position: "b7", name: "peon", blanca: false },
