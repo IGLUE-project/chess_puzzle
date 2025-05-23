@@ -1,24 +1,25 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { cleanPiece, cleanSquare, saveSquare } from "../redux/ChessboardSlicer";
 import "./../assets/scss/MainScreen.scss";
 import Board from "./Board";
 import Box from "./Box";
 import { BOXPOSITION, THEMES } from "../constants/constants";
+import { getIsSolved } from "../redux/ChessboardSliceSelector";
 
 let dropAudio;
 let dragAudio;
 let boxAudio;
 let resetAudio;
 
-export default function MainScreen({ show, boxPieces, setBoxPieces, resetPieces, theme, changeTheme }) {
+export default function MainScreen({ show, boxPieces, setBoxPieces, resetPieces, theme }) {
   const dispatch = useDispatch();
   const [pieceDrag, setPieceDrag] = useState(null);
-  const [stylePuzzle, setStylePuzzle] = useState("basic");
   const [size, setSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
+  const solved = useSelector(getIsSolved);
 
   useEffect(() => {
     dropAudio = document.getElementById("audio_drop");
@@ -123,17 +124,13 @@ export default function MainScreen({ show, boxPieces, setBoxPieces, resetPieces,
       className={`screen_wrapper bg-${theme.name} ${show ? "" : "screen_hidden"}`}
       style={{ backgroundImage: `url(${theme.backgroundImg})` }}
     >
-      <div className="buttons-container">
-        <button onClick={() => changeTheme(THEMES.BASIC)} className={`button-basic`}>
-          basic
-        </button>
-        <button onClick={() => changeTheme(THEMES.FUTURISTIC)} className={`button-futuristic`}>
-          futuristic
-        </button>
-        <button onClick={() => resetPiecesButton()} className={`button-futuristic`}>
-          reset
-        </button>
-      </div>
+      {!solved && (
+        <div className="buttons-container">
+          <button onClick={() => resetPiecesButton()} className={`button-futuristic`}>
+            reset
+          </button>
+        </div>
+      )}
       <div className="frame">
         <div className={`border-frame border-frame-${theme.name}`} style={{ gap: size.height * 0.05 }}>
           <Board

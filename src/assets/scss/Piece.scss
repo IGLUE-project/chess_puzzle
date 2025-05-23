@@ -1,11 +1,14 @@
 div.Piece {
   height: 80%;
   width: 50%;
-  cursor: move;
-  cursor: grab;
-  cursor: -moz-grab;
-  cursor: -webkit-grab;
   z-index: 1;
+
+  &:not(.solved) {
+    cursor: move;
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+  }
   &.dragged {
     opacity: 0.3;
     transform: scale(1.1);
@@ -15,7 +18,22 @@ div.Piece {
     width: 100%;
     height: 100%;
   }
-  &:active {
+  &:active:not(.solved) {
     cursor: grabbing;
+  }
+  &.highlighted {
+    animation: glow 1.5s infinite ease-in-out;
+  }
+}
+
+@keyframes glow {
+  0% {
+    filter: drop-shadow(0 0 5px #ffd700);
+  }
+  50% {
+    filter: drop-shadow(0 0 15px #fff700);
+  }
+  100% {
+    filter: drop-shadow(0 0 5px #ffd700);
   }
 }

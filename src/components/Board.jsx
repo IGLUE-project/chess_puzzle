@@ -1,8 +1,7 @@
 import { useSelector } from "react-redux";
-import React from "react";
+import "../assets/scss/Board.scss";
 import { getChessboard } from "../redux/ChessboardSliceSelector";
 import Square from "./Square";
-import "../assets/scss/Board.scss";
 
 export default function Board({
   handleDragEnter,

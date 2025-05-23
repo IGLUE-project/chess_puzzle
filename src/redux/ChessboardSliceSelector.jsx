@@ -11,3 +11,5 @@ export const getSquareById = (state, id) => {
 };
 
 export const getSquare = (state, { x, y } = cords) => getBaseSelector(state).chessboard[x][y];
+
+export const getIsSolved = (state) => getBaseSelector(state).solved;

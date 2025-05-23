@@ -22,7 +22,7 @@ import {
 } from "../constants/constants.jsx";
 
 import { getChessboard } from "../redux/ChessboardSliceSelector.jsx";
-import { saveChessboard } from "../redux/ChessboardSlicer.jsx";
+import { saveChessboard, setPieceSolved, setSolved } from "../redux/ChessboardSlicer.jsx";
 import MainScreen from "./MainScreen.jsx";
 
 let escapp;
@@ -32,7 +32,7 @@ const initialConfig = {
     theme: THEMES.ANCIENT,
     solutionLength: 4,
   },
-  box: CONFIG.ALLPIECES,
+  box: CONFIG.CUSTOMBOX,
   customBox: [
     { name: "peon", blanca: false },
     { name: "torre", blanca: true },
@@ -65,27 +65,69 @@ export default function App() {
     I18n.init(GLOBAL_CONFIG);
 
     escapp = new ESCAPP(GLOBAL_CONFIG.escapp);
-    // escapp.validate((success, er_state) => {
-    //   console.log("ESCAPP validation", success, er_state);
-    //   try {
-    //     if (success) {
-    //       //ha ido bien, restauramos el estado recibido
-    //       restoreState(er_state);
-    //     }
-    //   } catch (e) {
-    //     console.error(e);
-    //   }
-    // });
+    escapp.validate((success, er_state) => {
+      console.log("ESCAPP validation", success, er_state);
+      try {
+        if (success) {
+          //ha ido bien, restauramos el estado recibido
+          restoreState(er_state);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    });
 
     setLoading(false);
   }, []);
 
-  function solvePuzzle(solution) {
-    console.log("Solving puzzle", solution);
+  function restoreState(er_state) {
+    console.log("Restoring state", er_state);
+    if (typeof er_state !== "undefined" && er_state.puzzlesSolved.length > 0) {
+      let lastPuzzleSolved = Math.max.apply(null, er_state.puzzlesSolved);
+      if (lastPuzzleSolved >= GLOBAL_CONFIG.escapp.puzzleId) {
+        //puzzle superado, abrimos la caja fuerte
+      } else {
+        //puzzle no superado, miramos en localStorage en qué pantalla estábamos
+        let localstateToRestore = LocalStorage.getSetting("app_state");
+        console.log("Restoring screen from local state", localstateToRestore);
+        if (localstateToRestore) {
+          setScreen(localstateToRestore.screen);
+        }
+      }
+      setLoading(false);
+    } else {
+      // restoreLocalState();
+    }
+  }
 
-    escapp.submitPuzzle(GLOBAL_CONFIG.escapp.puzzleId, solution, {}, (success) => {
+  function solvePuzzle(parsedSolution) {
+    console.log("Solving puzzle", parsedSolution);
+
+    escapp.submitPuzzle(GLOBAL_CONFIG.escapp.puzzleId, parsedSolution, {}, (success) => {
       if (success) {
-        //mensaje de ganar o siguiente escena
+        winAnimation();
+      }
+    });
+  }
+
+  function winAnimation() {
+    new Audio("sounds/win.wav").play();
+    dispatch(setSolved(true));
+
+    const highlightedIds = solution
+      .filter((piece) => piece.position.x === -1 && piece.position.y === -1)
+      .map((piece) => piece.id);
+
+    setBoxPieces((prev) =>
+      prev.map((p) => ({
+        ...p,
+        class: highlightedIds.includes(p.id) ? "highlighted" : "",
+      })),
+    );
+
+    solution.forEach(({ position: { x, y } }) => {
+      if (x !== -1 || y !== -1) {
+        dispatch(setPieceSolved({ x, y }));
       }
     });
   }
@@ -227,10 +269,6 @@ export default function App() {
   const resetPieces = () => {
     loadConfig(initialConfig);
   };
-  const changeTheme = (theme) => {
-    initialConfig.config.theme = theme;
-    loadConfig(initialConfig);
-  };
 
   return (
     <div id="firstnode">
@@ -242,7 +280,6 @@ export default function App() {
             setBoxPieces={setBoxPieces}
             resetPieces={resetPieces}
             theme={config.theme}
-            changeTheme={changeTheme}
           />
         )}
       </div>

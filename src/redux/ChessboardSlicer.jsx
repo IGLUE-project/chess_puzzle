@@ -3,6 +3,7 @@ import { emptyChessboard } from "../constants/constants";
 
 const initialState = {
   chessboard: emptyChessboard(),
+  solved: false,
 };
 
 const chessboard = createSlice({
@@ -24,6 +25,13 @@ const chessboard = createSlice({
       const p = action.payload;
       saveSquareClean(state.chessboard, p);
     },
+    setSolved: (state, action) => {
+      state.solved = action.payload;
+    },
+    setPieceSolved: (state, action) => {
+      const p = action.payload;
+      state.chessboard[p.x][p.y] = { ...state.chessboard[p.x][p.y], class: "highlighted" };
+    },
   },
 });
 
@@ -35,5 +43,5 @@ function saveSquareClean(chessBoard, p) {
   }
 }
 
-export const { saveChessboard, saveSquare, cleanSquare, cleanPiece } = chessboard.actions;
+export const { saveChessboard, saveSquare, cleanSquare, cleanPiece, setSolved, setPieceSolved } = chessboard.actions;
 export default chessboard.reducer;
