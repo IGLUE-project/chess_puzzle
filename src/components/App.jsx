@@ -29,7 +29,7 @@ let escapp;
 
 const initialConfig = {
   config: {
-    theme: THEMES.ANCIENT,
+    theme: THEMES.FUTURISTIC,
     solutionLength: 4,
   },
   box: CONFIG.CUSTOMBOX,
