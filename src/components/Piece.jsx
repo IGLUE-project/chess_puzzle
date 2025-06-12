@@ -17,7 +17,7 @@ export default function Piece({ piece, handleDragStart, handleDragEnd, theme }) 
         onDragEnd={(e) => {
           if (!solved) handleDragEnd(e, piece);
         }}
-        src={`/src/assets/images/${img}_${theme.name}.png`}
+        src={`/src/assets/images/${img}_${theme.skin}.png`}
         alt={piece.name}
       />
     </div>

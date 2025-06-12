@@ -12,7 +12,7 @@ let dragAudio;
 let boxAudio;
 let resetAudio;
 
-export default function MainScreen({ show, boxPieces, setBoxPieces, resetPieces, theme }) {
+export default function MainScreen({ boxPieces, setBoxPieces, resetPieces, theme }) {
   const dispatch = useDispatch();
   const [pieceDrag, setPieceDrag] = useState(null);
   const [size, setSize] = useState({
@@ -59,7 +59,7 @@ export default function MainScreen({ show, boxPieces, setBoxPieces, resetPieces,
           return { ...p, class: "dragged" };
         }
         return p;
-      }),
+      })
     );
   };
 
@@ -119,11 +119,7 @@ export default function MainScreen({ show, boxPieces, setBoxPieces, resetPieces,
   }
 
   return (
-    <div
-      id="MainScreen"
-      className={`screen_wrapper bg-${theme.name} ${show ? "" : "screen_hidden"}`}
-      style={{ backgroundImage: `url(${theme.backgroundImg})` }}
-    >
+    <div id="MainScreen" className={`screen_wrapper bg-${theme.name} `} style={{ backgroundImage: `url(${theme.backgroundImg})` }}>
       {!solved && (
         <div className="buttons-container">
           <button onClick={() => resetPiecesButton()} className={`button-futuristic`}>
@@ -142,13 +138,7 @@ export default function MainScreen({ show, boxPieces, setBoxPieces, resetPieces,
             theme={theme}
             size={size}
           />
-          <Box
-            boxPieces={boxPieces}
-            handleDragStart={handleDragStart}
-            handleDragEnd={handleDragEnd}
-            theme={theme}
-            size={size}
-          />
+          <Box boxPieces={boxPieces} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} theme={theme} size={size} />
         </div>
       </div>
       <>

@@ -1,12 +1,7 @@
+// redux/ReduxProvider.js
 import { Provider } from "react-redux";
-import React from "react";
-import App from "../components/App";
 import store from "./Store";
 
-export default function ReduxProvider() {
-  return (
-    <Provider store={store}>
-      <App />
-    </Provider>
-  );
+export default function ReduxProvider({ children }) {
+  return <Provider store={store}>{children}</Provider>;
 }

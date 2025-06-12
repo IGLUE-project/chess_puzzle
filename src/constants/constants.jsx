@@ -1,8 +1,8 @@
-export const PAINTING_SCREEN = "painting";
-export const SAFE_CLOSED_SCREEN = "safe_closed";
-export const SAFE_OPEN_SCREEN = "safe_open";
-export const CONTROL_PANEL_SCREEN = "control_panel";
-export const KEYPAD_SCREEN = "keypad";
+export const ESCAPP_CLIENT_SETTINGS = {
+  imagesPath: "./images/",
+};
+
+export const ALLOWED_ACTIONS = ["NONE", "LOAD_SOLUTION"];
 
 export function emptyChessboard() {
   return Array(8)
@@ -122,14 +122,34 @@ export const PIECEMAP = {
 };
 
 export const THEMES = {
-  BASIC: "basic",
-  FUTURISTIC: "futuristic",
-  CONTEMPORARY: "contemporary",
-  ANCIENT: "ancient",
+  BASIC: "BASIC",
+  FUTURISTIC: "FUTURISTIC",
+  STANDARD: "STANDARD",
+  RETRO: "RETRO",
+};
+
+export const DEFAULT_APP_SETTINGS = {
+  skin: "STANDARD",
+  actionAfterSolve: "NONE",
+  message: undefined,
+  solutionLength: 4,
+
+  box: CONFIG.ONEPIECEEACH,
+  customBox: [],
+  chessBoard: CONFIG.DEFAULTCHESSBOARD,
+  customChessboard: [],
+
+  backgroundImg: "",
+  chessboardImg: "/src/assets/images/basic_chessboard.png",
+  boxImg: "/src/assets/images/basic_box.svg",
+  dragAudio: "sounds/move-check.mp3",
+  dropAudio: "sounds/move-self.mp3",
+  resetAudio: "sounds/reset.mp3",
+  discardAudio: "sounds/box.wav",
 };
 
 export const THEME_ASSETS = {
-  [THEMES.ANCIENT]: {
+  [THEMES.RETRO]: {
     backgroundImg: "/src/assets/images/ancient_table.png",
     chessboardImg: "/src/assets/images/ancient_chessboard.png",
     boxImg: "/src/assets/images/ancient_box.png",
@@ -147,7 +167,7 @@ export const THEME_ASSETS = {
     resetAudio: "sounds/reset.mp3",
     discardAudio: "sounds/box.wav",
   },
-  [THEMES.CONTEMPORARY]: {
+  [THEMES.STANDARD]: {
     backgroundImg: "/src/assets/images/wooden_table.png",
     chessboardImg: "/src/assets/images/basic_chessboard.png",
     boxImg: "/src/assets/images/basic_box.svg",
