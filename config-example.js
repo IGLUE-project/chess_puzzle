@@ -8,6 +8,7 @@ export let ESCAPP_APP_SETTINGS = {
   // backgroundImg: "NONE", //background can be "NONE" or a URL.
   actionAfterSolve: "LOAD_SOLUTION", //actionAfterSolve can be "NONE" or "LOAD_SOLUTION".
   //message: "Custom message",
+  saveState: true,
 
   box: CONFIG.CUSTOMBOX,
   customBox: [

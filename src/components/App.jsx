@@ -121,7 +121,6 @@ export default function App() {
     const updatedSolution = [...movedPieces, ...movedBoxPieces];
 
     Storage.saveSetting("state", parseSolution(updatedSolution));
-    console.log("set storage", parseSolution(updatedSolution));
 
     if (JSON.stringify(updatedSolution) !== JSON.stringify(solution) && !gameEnded.current) {
       setSolution(updatedSolution);

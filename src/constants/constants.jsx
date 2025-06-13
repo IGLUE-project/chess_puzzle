@@ -133,6 +133,7 @@ export const DEFAULT_APP_SETTINGS = {
   actionAfterSolve: "NONE",
   message: undefined,
   solutionLength: 4,
+  saveState: true,
 
   box: CONFIG.ONEPIECEEACH,
   customBox: [],
