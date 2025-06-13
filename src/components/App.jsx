@@ -28,6 +28,7 @@ export default function App() {
   const hasExecutedEscappValidation = useRef(false);
 
   const gameEnded = useRef(false);
+  const firstLoad = useRef(true);
   const [solutionLoaded, setSolutionLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
   const chessboard = useSelector(getChessboard);
@@ -96,6 +97,11 @@ export default function App() {
   }, [escapp, appSettings, Storage]);
 
   useEffect(() => {
+    if (escapp === null) return;
+    if (firstLoad.current) {
+      firstLoad.current = false;
+      return;
+    }
     const movedPieces = chessboard
       .flat()
       .filter(
@@ -113,6 +119,9 @@ export default function App() {
     );
 
     const updatedSolution = [...movedPieces, ...movedBoxPieces];
+
+    Storage.saveSetting("state", parseSolution(updatedSolution));
+    console.log("set storage", parseSolution(updatedSolution));
 
     if (JSON.stringify(updatedSolution) !== JSON.stringify(solution) && !gameEnded.current) {
       setSolution(updatedSolution);
@@ -144,6 +153,11 @@ export default function App() {
             loadSolution(erState.puzzleData[+escapp.getSettings().resourceId].solution || null);
           }
         }
+      }
+    } else {
+      const state = Storage.getSetting("state");
+      if (appSettings.saveState && state) {
+        loadSolution(state);
       }
     }
   }
@@ -309,7 +323,7 @@ export default function App() {
       const [name, initialPosStr, currentPosStr, blancaStr] = entry.split(",");
 
       return {
-        id: index * 999, // temporal; se reemplazará al encontrar la pieza real
+        id: (index + 1) * 1000, // temporal; se reemplazará al encontrar la pieza real
         name,
         blanca: blancaStr === "true",
         class: "",
@@ -396,7 +410,7 @@ export default function App() {
       className={`${appSettings !== null && typeof appSettings.skin === "string" ? appSettings.skin.toLowerCase() : ""}`}
     >
       <div className={`main-background ${fail ? "fail" : ""}`}>
-        {appSettings && <MainScreen boxPieces={boxPieces} setBoxPieces={setBoxPieces} resetPieces={resetPieces} theme={appSettings} />}
+        {!loading && <MainScreen boxPieces={boxPieces} setBoxPieces={setBoxPieces} resetPieces={resetPieces} theme={appSettings} />}
       </div>
     </div>
   );
