@@ -4,23 +4,23 @@ import { CONFIG, THEMES } from "./src/constants/constants";
 
 export let ESCAPP_APP_SETTINGS = {
   //Settings that can be specified by the authors
-  skin: THEMES.BASIC, //skin can be "STANDARD", "RETRO" or "FUTURISTIC" or "BASIC".
+  skin: THEMES.STANDARD, //skin can be "STANDARD", "RETRO" or "FUTURISTIC" or "BASIC".
   // backgroundImg: "NONE", //background can be "NONE" or a URL.
-  actionWhenLoadingIfSolved: true,
+  actionWhenLoadingIfSolved: false,
   //message: "Custom message",
   saveState: true,
 
   box: CONFIG.CUSTOMBOX,
   customBox: [
-    { name: "peon", blanca: false },
-    { name: "torre", blanca: true },
+    { name: "Pawn", blanca: false },
+    { name: "Rook", blanca: true },
   ],
   chessBoard: CONFIG.DEFAULTCHESSBOARD,
   customChessboard: [
-    { position: "a7", name: "peon", blanca: false },
-    { position: "b7", name: "peon", blanca: false },
-    { position: "c7", name: "peon", blanca: false },
-    { position: "d7", name: "torre", blanca: true },
+    { position: "a7", name: "Pawn", blanca: false },
+    { position: "b7", name: "Pawn", blanca: false },
+    { position: "c7", name: "Pawn", blanca: false },
+    { position: "d7", name: "Rook", blanca: true },
   ],
 
   //Settings that will be automatically specified by the Escapp server

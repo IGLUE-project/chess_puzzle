@@ -142,13 +142,11 @@ export default function App() {
   function restoreAppState(erState) {
     Utils.log("Restore application state based on escape room state:", erState);
     // Si el puzle está resuelto lo ponemos en posicion de resuelto
-    if (escapp.getAllPuzzlesSolved()) {
-      if (appSettings.actionWhenLoadingIfSolved) {
-        let solution = escapp.getLastSolution();
-        if (solution) {
-          gameEnded.current = true;
-          loadSolution(solution);
-        }
+    if (escapp.getAllPuzzlesSolved() && appSettings.actionWhenLoadingIfSolved) {
+      let solution = escapp.getLastSolution();
+      if (solution) {
+        gameEnded.current = true;
+        loadSolution(solution);
       }
     } else {
       const state = Storage.getSetting("state");
