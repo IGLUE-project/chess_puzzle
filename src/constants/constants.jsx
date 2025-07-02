@@ -2,8 +2,6 @@ export const ESCAPP_CLIENT_SETTINGS = {
   imagesPath: "./images/",
 };
 
-export const ALLOWED_ACTIONS = ["NONE", "LOAD_SOLUTION"];
-
 export function emptyChessboard() {
   return Array(8)
     .fill()
@@ -130,7 +128,7 @@ export const THEMES = {
 
 export const DEFAULT_APP_SETTINGS = {
   skin: "STANDARD",
-  actionAfterSolve: "NONE",
+  actionWhenLoadingIfSolved: true,
   message: undefined,
   solutionLength: 4,
   saveState: true,

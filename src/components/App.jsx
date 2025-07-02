@@ -6,7 +6,6 @@ import "./../assets/scss/modal.scss";
 import "./../assets/scss/stylePuzzle.scss";
 
 import {
-  ALLOWED_ACTIONS,
   ALLPIECES,
   BOXPOSITION,
   CONFIG,
@@ -24,7 +23,8 @@ import { GlobalContext } from "./GlobalContext.jsx";
 import MainScreen from "./MainScreen.jsx";
 
 export default function App() {
-  const { escapp, setEscapp, appSettings, setAppSettings, Storage, setStorage, Utils, I18n } = useContext(GlobalContext);
+  const { escapp, setEscapp, appSettings, setAppSettings, Storage, setStorage, Utils, I18n } =
+    useContext(GlobalContext);
   const hasExecutedEscappValidation = useRef(false);
 
   const gameEnded = useRef(false);
@@ -108,14 +108,14 @@ export default function App() {
         (piece) =>
           piece !== null &&
           piece.class === "" &&
-          (piece.position.x !== piece.initialPosition.x || piece.position.y !== piece.initialPosition.y)
+          (piece.position.x !== piece.initialPosition.x || piece.position.y !== piece.initialPosition.y),
       );
 
     const movedBoxPieces = boxPieces.filter(
       (piece) =>
         piece !== null &&
         piece.class === "" &&
-        (piece.position.x !== piece.initialPosition.x || piece.position.y !== piece.initialPosition.y)
+        (piece.position.x !== piece.initialPosition.x || piece.position.y !== piece.initialPosition.y),
     );
 
     const updatedSolution = [...movedPieces, ...movedBoxPieces];
@@ -143,14 +143,11 @@ export default function App() {
     Utils.log("Restore application state based on escape room state:", erState);
     // Si el puzle está resuelto lo ponemos en posicion de resuelto
     if (escapp.getAllPuzzlesSolved()) {
-      if (appSettings.actionAfterSolve === "LOAD_SOLUTION") {
-        if (escapp.getAllPuzzlesSolved()) {
-          let solution = escapp.getLastSolution();
-          if (typeof solution !== "undefined") {
-            //parsear la solucion, aplicarla y hacer win animation
-            gameEnded.current = true;
-            loadSolution(erState.puzzleData[+escapp.getSettings().resourceId].solution || null);
-          }
+      if (appSettings.actionWhenLoadingIfSolved) {
+        let solution = escapp.getLastSolution();
+        if (solution) {
+          gameEnded.current = true;
+          loadSolution(solution);
         }
       }
     } else {
@@ -172,10 +169,6 @@ export default function App() {
 
     // Merge _appSettings with DEFAULT_APP_SETTINGS_SKIN to obtain final app settings
     _appSettings = Utils.deepMerge(DEFAULT_APP_SETTINGS_SKIN, _appSettings);
-
-    if (!ALLOWED_ACTIONS.includes(_appSettings.actionAfterSolve)) {
-      _appSettings.actionAfterSolve = DEFAULT_APP_SETTINGS.actionAfterSolve;
-    }
 
     let newChessboard;
     let newBox;
@@ -283,13 +276,15 @@ export default function App() {
 
     const sol = _solution ? _solution : solution;
 
-    const highlightedIds = sol.filter((piece) => piece.position.x === -1 && piece.position.y === -1).map((piece) => piece.id);
+    const highlightedIds = sol
+      .filter((piece) => piece.position.x === -1 && piece.position.y === -1)
+      .map((piece) => piece.id);
 
     setBoxPieces((prev) =>
       prev.map((p) => ({
         ...p,
         class: highlightedIds.includes(p.id) ? "highlighted" : "",
-      }))
+      })),
     );
 
     sol.forEach(({ position: { x, y } }) => {
@@ -355,7 +350,10 @@ export default function App() {
       if (!found) {
         const index = newBoxPieces.findIndex(
           (p) =>
-            p.initialPosition.x === initialPosition.x && p.initialPosition.y === initialPosition.y && p.name === name && p.blanca === blanca
+            p.initialPosition.x === initialPosition.x &&
+            p.initialPosition.y === initialPosition.y &&
+            p.name === name &&
+            p.blanca === blanca,
         );
         if (index !== -1) {
           found = newBoxPieces[index];
@@ -391,10 +389,10 @@ export default function App() {
     return solution
       .map(
         (piece) =>
-          `${piece.name},${coordinatesToPosition(piece.initialPosition.x, piece.initialPosition.y)},${coordinatesToPosition(
-            piece.position.x,
-            piece.position.y
-          )},${piece.blanca}`
+          `${piece.name},${coordinatesToPosition(
+            piece.initialPosition.x,
+            piece.initialPosition.y,
+          )},${coordinatesToPosition(piece.position.x, piece.position.y)},${piece.blanca}`,
       )
       .join(";");
   }
@@ -406,10 +404,14 @@ export default function App() {
   return (
     <div
       id="global_wrapper"
-      className={`${appSettings !== null && typeof appSettings.skin === "string" ? appSettings.skin.toLowerCase() : ""}`}
+      className={`${
+        appSettings !== null && typeof appSettings.skin === "string" ? appSettings.skin.toLowerCase() : ""
+      }`}
     >
       <div className={`main-background ${fail ? "fail" : ""}`}>
-        {!loading && <MainScreen boxPieces={boxPieces} setBoxPieces={setBoxPieces} resetPieces={resetPieces} theme={appSettings} />}
+        {!loading && (
+          <MainScreen boxPieces={boxPieces} setBoxPieces={setBoxPieces} resetPieces={resetPieces} theme={appSettings} />
+        )}
       </div>
     </div>
   );

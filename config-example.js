@@ -6,7 +6,7 @@ export let ESCAPP_APP_SETTINGS = {
   //Settings that can be specified by the authors
   skin: THEMES.BASIC, //skin can be "STANDARD", "RETRO" or "FUTURISTIC" or "BASIC".
   // backgroundImg: "NONE", //background can be "NONE" or a URL.
-  actionAfterSolve: "LOAD_SOLUTION", //actionAfterSolve can be "NONE" or "LOAD_SOLUTION".
+  actionWhenLoadingIfSolved: true,
   //message: "Custom message",
   saveState: true,
 
