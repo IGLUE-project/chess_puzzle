@@ -26,7 +26,6 @@ export default function Box({ boxPieces, handleDragStart, handleDragEnd, theme, 
           />
         </div>
       ))}
-      {/* <img className="box" src={`/src/assets/images/${stylePuzzle}_box.svg`}></img> */}
     </div>
   );
 }
