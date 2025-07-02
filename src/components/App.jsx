@@ -128,7 +128,7 @@ export default function App() {
   }, [chessboard, boxPieces]);
 
   useEffect(() => {
-    if (appSettings && solution.length === appSettings.solutionLength) {
+    if (appSettings && solution.length === appSettings.solutionLength && !gameEnded.current) {
       checkResult(parseSolution(solution));
     }
   }, [solution]);
@@ -293,7 +293,7 @@ export default function App() {
   }
 
   function positionToCoordinates(position) {
-    if (position === "box") return { x: -1, y: -1 };
+    if (position === "Box") return { x: -1, y: -1 };
     const column = position[0].toLowerCase();
     const row = position[1];
 
@@ -303,7 +303,7 @@ export default function App() {
     return { x, y };
   }
   function coordinatesToPosition(x, y) {
-    if (x === -1 && y === -1) return "box";
+    if (x === -1 && y === -1) return "Box";
     const column = String.fromCharCode("a".charCodeAt(0) + y);
     const row = (x + 1).toString();
 
@@ -312,12 +312,12 @@ export default function App() {
 
   function loadSolution(solutionStr) {
     const parsedSolution = solutionStr.split(";").map((entry, index) => {
-      const [name, initialPosStr, currentPosStr, blancaStr] = entry.split(",");
+      const [name, blancaStr, initialPosStr, currentPosStr] = entry.split(",");
 
       return {
-        id: (index + 1) * 1000, // temporal; se reemplazará al encontrar la pieza real
+        id: (index + 1) * 1000,
         name,
-        blanca: blancaStr === "true",
+        blanca: blancaStr === "White",
         class: "",
         initialPosition: positionToCoordinates(initialPosStr),
         position: positionToCoordinates(currentPosStr),
@@ -387,10 +387,10 @@ export default function App() {
     return solution
       .map(
         (piece) =>
-          `${piece.name},${coordinatesToPosition(
+          `${piece.name},${piece.blanca ? "White" : "Black"},${coordinatesToPosition(
             piece.initialPosition.x,
             piece.initialPosition.y,
-          )},${coordinatesToPosition(piece.position.x, piece.position.y)},${piece.blanca}`,
+          )},${coordinatesToPosition(piece.position.x, piece.position.y)}`,
       )
       .join(";");
   }
