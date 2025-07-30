@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import "../assets/scss/Piece.scss";
 import { getIsSolved } from "../redux/ChessboardSliceSelector";
 import { THEMES } from "../constants/constants";
 

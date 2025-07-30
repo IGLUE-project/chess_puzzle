@@ -28,8 +28,8 @@ export let ESCAPP_APP_SETTINGS = {
   locale: "es",
 
   escappClientSettings: {
-    endpoint: "https://escapp.etsisi.upm.es/api/escapeRooms/153",
-    linkedPuzzleIds: [2],
+    endpoint: "https://escapp.es/api/escapeRooms/id",
+    linkedPuzzleIds: [1],
     rtc: false,
   },
 };

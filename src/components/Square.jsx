@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import "../assets/scss/Square.scss";
 import { getSquare } from "../redux/ChessboardSliceSelector";
 import Piece from "./Piece";
 
