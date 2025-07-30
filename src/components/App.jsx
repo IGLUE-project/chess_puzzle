@@ -4,15 +4,18 @@ import { useDispatch, useSelector } from "react-redux";
 import "./../assets/scss/app.scss";
 
 import {
-  ALLPIECES,
-  BOXPOSITION,
-  CONFIG,
   DEFAULT_APP_SETTINGS,
-  defaultChessboard,
-  emptyChessboard,
-  ESCAPP_CLIENT_SETTINGS,
-  ONEPIECEEACH,
   THEME_ASSETS,
+  ESCAPP_CLIENT_SETTINGS,
+  BOARD_EMPTY,
+  createEmptyBoard,
+  BOARD_CLASSIC,
+  BOARD_QUEEN_GAMBIT,
+  BOARD_SPANISH_OPENING,
+  BOARD_ITALIAN_OPENING,
+  BOX_POSITION,
+  BOX_EMPTY,
+  BOX_ALL_PIECES,
 } from "../constants/constants.jsx";
 
 import { getChessboard } from "../redux/ChessboardSliceSelector.jsx";
@@ -21,10 +24,8 @@ import { GlobalContext } from "./GlobalContext.jsx";
 import MainScreen from "./MainScreen.jsx";
 
 export default function App() {
-  const { escapp, setEscapp, appSettings, setAppSettings, Storage, setStorage, Utils, I18n } =
-    useContext(GlobalContext);
+  const { escapp, setEscapp, appSettings, setAppSettings, Storage, setStorage, Utils, I18n } = useContext(GlobalContext);
   const hasExecutedEscappValidation = useRef(false);
-
   const gameEnded = useRef(false);
   const firstLoad = useRef(true);
   const [solutionLoaded, setSolutionLoaded] = useState(false);
@@ -33,7 +34,6 @@ export default function App() {
   const [boxPieces, setBoxPieces] = useState([]);
   const [solution, setSolution] = useState([]);
   const [fail, setFail] = useState(false);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -148,7 +148,7 @@ export default function App() {
       }
     } else {
       const state = Storage.getSetting("state");
-      if (appSettings.saveState && state) {
+      if (state) {
         loadSolution(state);
       }
     }
@@ -172,44 +172,34 @@ export default function App() {
     let newChessboard;
     let newBox;
 
-    switch (_appSettings.box) {
-      case CONFIG.ALLPIECES:
-        newBox = ALLPIECES;
+    switch (_appSettings.initialSetup) {
+      case "EMPTY_BOARD":
+        newChessboard = BOARD_EMPTY;
+        newBox = BOX_ALL_PIECES;
         break;
-
-      case CONFIG.ONEPIECEEACH:
-        newBox = ONEPIECEEACH;
-        break;
-
-      case CONFIG.EMPTY:
-        newBox = [];
-        break;
-
-      case CONFIG.CUSTOMBOX:
+      case "QUEEN_GAMBIT":
+       newChessboard = BOARD_QUEEN_GAMBIT;
+       newBox = BOX_EMPTY;
+       break;
+      case "SPANISH_OPENING":
+       newChessboard = BOARD_SPANISH_OPENING;
+       newBox = BOX_EMPTY;
+       break;
+      case "ITALIAN_OPENING":
+       newChessboard = BOARD_ITALIAN_OPENING;
+       newBox = BOX_EMPTY;
+       break;
+      case "CUSTOM":
         newBox = _appSettings.customBox.map((piece, index) => ({
           ...piece,
           id: index,
           class: "",
-          position: BOXPOSITION,
-          initialPosition: BOXPOSITION,
+          position: BOX_POSITION,
+          initialPosition: BOX_POSITION,
         }));
-        break;
 
-      default:
-        newBox = ALLPIECES;
-    }
-
-    switch (_appSettings.chessBoard) {
-      case CONFIG.EMPTY:
-        newChessboard = emptyChessboard();
-        break;
-      case CONFIG.DEFAULTCHESSBOARD:
-        newChessboard = defaultChessboard();
-        break;
-
-      case CONFIG.CUSTOMCHESSBOARD:
-        newChessboard = emptyChessboard();
-        _appSettings.customChessboard.forEach((piece, index) => {
+        newChessboard = createEmptyBoard(); 
+        _appSettings.customBoard.forEach((piece, index) => {
           let position = positionToCoordinates(piece.position);
           newChessboard[position.x][position.y] = {
             ...piece,
@@ -220,27 +210,23 @@ export default function App() {
           };
         });
         break;
-
+      case "CLASSIC":
       default:
-        newChessboard = emptyChessboard();
+        newChessboard = BOARD_CLASSIC;
+        newBox = BOX_EMPTY;
     }
+
     setBoxPieces(newBox);
     dispatch(saveChessboard(newChessboard));
 
     //Init internacionalization module
     I18n.init(_appSettings);
 
-    if (typeof _appSettings.message !== "string") {
-      _appSettings.message = I18n.getTrans("i.message");
-    }
-
     //Change HTTP protocol to HTTPs in URLs if necessary
     _appSettings = Utils.checkUrlProtocols(_appSettings);
 
     //Preload resources (if necessary)
-    Utils.preloadImages([_appSettings.backgroundMessage]);
-    //Utils.preloadAudios([_appSettings.soundBeep,_appSettings.soundNok,_appSettings.soundOk]); //Preload done through HTML audio tags
-    //Utils.preloadVideos(["videos/some_video.mp4"]);
+    //Utils.preloadImages([]);
     Utils.log("App settings:", _appSettings);
     return _appSettings;
   }
@@ -313,12 +299,12 @@ export default function App() {
 
   function loadSolution(solutionStr) {
     const parsedSolution = solutionStr.split(";").map((entry, index) => {
-      const [name, blancaStr, initialPosStr, currentPosStr] = entry.split(",");
+      const [name, whiteStr, initialPosStr, currentPosStr] = entry.split(",");
 
       return {
         id: (index + 1) * 1000,
         name,
-        blanca: blancaStr === "White",
+        white: whiteStr === "White",
         class: "",
         initialPosition: positionToCoordinates(initialPosStr),
         position: positionToCoordinates(currentPosStr),
@@ -330,7 +316,7 @@ export default function App() {
     const newBoxPieces = [...boxPieces.map((p) => ({ ...p }))];
 
     parsedSolution.forEach((solPiece) => {
-      const { name, blanca, initialPosition, position } = solPiece;
+      const { name, white, initialPosition, position } = solPiece;
       let found = null;
 
       // 1. Buscar la pieza en el tablero
@@ -339,7 +325,7 @@ export default function App() {
         initialPosition.y >= 0 &&
         newChessboard[initialPosition.x][initialPosition.y] &&
         newChessboard[initialPosition.x][initialPosition.y].name === name &&
-        newChessboard[initialPosition.x][initialPosition.y].blanca === blanca
+        newChessboard[initialPosition.x][initialPosition.y].white === white
       ) {
         found = newChessboard[initialPosition.x][initialPosition.y];
         newChessboard[initialPosition.x][initialPosition.y] = null;
@@ -352,7 +338,7 @@ export default function App() {
             p.initialPosition.x === initialPosition.x &&
             p.initialPosition.y === initialPosition.y &&
             p.name === name &&
-            p.blanca === blanca,
+            p.white === white,
         );
         if (index !== -1) {
           found = newBoxPieces[index];
@@ -366,8 +352,8 @@ export default function App() {
         found.position = position;
 
         if (position.x === -1 && position.y === -1) {
-          found.position = BOXPOSITION;
-          found.initialPosition = BOXPOSITION;
+          found.position = BOX_POSITION;
+          found.initialPosition = BOX_POSITION;
           newBoxPieces.push(solPiece);
         } else {
           newChessboard[position.x][position.y] = solPiece;
@@ -388,7 +374,7 @@ export default function App() {
     return solution
       .map(
         (piece) =>
-          `${piece.name},${piece.blanca ? "White" : "Black"},${coordinatesToPosition(
+          `${piece.name},${piece.white ? "White" : "Black"},${coordinatesToPosition(
             piece.initialPosition.x,
             piece.initialPosition.y,
           )},${coordinatesToPosition(piece.position.x, piece.position.y)}`,

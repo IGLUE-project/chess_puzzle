@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { GlobalContext } from "./GlobalContext";
 import { useDispatch, useSelector } from "react-redux";
 import { cleanPiece, cleanSquare, saveSquare } from "../redux/ChessboardSlicer";
-import "./../assets/scss/MainScreen.scss";
 import Board from "./Board";
 import Box from "./Box";
-import { BOXPOSITION, THEMES } from "../constants/constants";
+import { BOX_POSITION, THEMES } from "../constants/constants";
 import { getIsSolved } from "../redux/ChessboardSliceSelector";
+import "./../assets/scss/MainScreen.scss";
 
 let dropAudio;
 let dragAudio;
@@ -13,6 +14,7 @@ let boxAudio;
 let resetAudio;
 
 export default function MainScreen({ boxPieces, setBoxPieces, resetPieces, theme }) {
+  const { I18n } = useContext(GlobalContext);
   const dispatch = useDispatch();
   const [pieceDrag, setPieceDrag] = useState(null);
   const [size, setSize] = useState({
@@ -51,6 +53,13 @@ export default function MainScreen({ boxPieces, setBoxPieces, resetPieces, theme
 
   //Evento cuando coges una pieza
   const handleDragStart = (e, piece) => {
+    //Prevent browser cursor default img
+    // const emptyImg = new Image();
+    // emptyImg.src = '';
+    // e.dataTransfer.setDragImage(emptyImg, 0, 0);
+    e.dataTransfer.effectAllowed = "move";
+
+
     dragAudio.play();
     setPieceDrag({ ...piece, class: "dragged" });
     setBoxPieces((pieces) =>
@@ -65,13 +74,14 @@ export default function MainScreen({ boxPieces, setBoxPieces, resetPieces, theme
 
   //evento al soltar una pieza
   const handleDragEnd = (e, piece) => {
+    e.preventDefault();
     if (pieceDrag) {
       if (!(piece.position.x === pieceDrag.x && piece.position.y === pieceDrag.y)) {
         setBoxPieces((prevPieces) => {
           if (prevPieces.some((p) => p.id === piece.id)) {
             return prevPieces.map((p) => (p.id === piece.id ? { ...p, class: "" } : p));
           }
-          return [...prevPieces, { ...piece, class: "", position: BOXPOSITION }];
+          return [...prevPieces, { ...piece, class: "", position: BOX_POSITION }];
         });
         dispatch(cleanPiece({ piece }));
         boxAudio.play();
@@ -82,9 +92,9 @@ export default function MainScreen({ boxPieces, setBoxPieces, resetPieces, theme
 
   //evento cuando pasas por un recuadro mientas sujetas una pieza
   const handleDragEnter = (e, x, y) => {
+    e.preventDefault();
     //compueba que sigue dentro del cuadrado
     if (e.relatedTarget && e.currentTarget.contains(e.relatedTarget)) return;
-
     if (pieceDrag && e.currentTarget.childNodes.length === 0) {
       dispatch(saveSquare({ piece: { ...pieceDrag, shadow: true }, x, y }));
     }
@@ -92,9 +102,9 @@ export default function MainScreen({ boxPieces, setBoxPieces, resetPieces, theme
 
   //evento cuando sales de un recuadro mientas sujetas una pieza
   const handleDragLeave = (e, x, y, piece) => {
+    e.preventDefault();
     //compueba que sigue dentro del cuadrado
     if (e.relatedTarget && e.currentTarget.contains(e.relatedTarget)) return;
-
     setTimeout(() => {
       if (pieceDrag && pieceDrag.id === piece.id && piece.shadow) {
         dispatch(cleanSquare({ piece: pieceDrag, x, y }));
@@ -104,6 +114,7 @@ export default function MainScreen({ boxPieces, setBoxPieces, resetPieces, theme
 
   //evento cuando sueltas una pieza en un recuadro
   const handleDrop = (e, x, y, piece) => {
+    e.preventDefault();
     if (pieceDrag && piece.id === pieceDrag.id) {
       dispatch(cleanPiece({ piece: pieceDrag }));
       dispatch(saveSquare({ piece: { ...pieceDrag, class: "", position: { x, y } }, x, y }));
@@ -122,9 +133,7 @@ export default function MainScreen({ boxPieces, setBoxPieces, resetPieces, theme
     <div id="MainScreen" className={`screen_wrapper bg-${theme.name} `} style={{ backgroundImage: `url(${theme.backgroundImg})` }}>
       {!solved && (
         <div className="buttons-container">
-          <button onClick={() => resetPiecesButton()} className={`button-futuristic`}>
-            reset
-          </button>
+          <button onClick={() => resetPiecesButton()} className={`button-futuristic`}>{I18n.getTrans("i.reset")}</button>
         </div>
       )}
       <div className="frame">

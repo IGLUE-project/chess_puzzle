@@ -1,5 +1,11 @@
 export let LOCALES = {
-  es: {},
-  en: {},
-  it: {},
+  en:{
+    "i.reset":"Reset",
+  },
+  es:{
+    "i.reset":"Reiniciar",
+  },
+  sr:{
+    "i.continue":"Reset",
+  },
 };

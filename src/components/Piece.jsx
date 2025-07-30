@@ -3,9 +3,7 @@ import { getIsSolved } from "../redux/ChessboardSliceSelector";
 import { THEMES } from "../constants/constants";
 
 export default function Piece({ piece, handleDragStart, handleDragEnd, theme }) {
-  const img = piece.blanca ? piece.name : `${piece.name}_negro`;
-  const skin = theme.skin === THEMES.STANDARD ? THEMES.BASIC : theme.skin;
-
+  const img = piece.white ? piece.name : `${piece.name}_black`;
   const solved = useSelector(getIsSolved);
 
   return (
@@ -18,7 +16,7 @@ export default function Piece({ piece, handleDragStart, handleDragEnd, theme }) 
         onDragEnd={(e) => {
           if (!solved) handleDragEnd(e, piece);
         }}
-        src={`images/${img}_${skin.toLowerCase()}.png`}
+        src={`images/${img}_${theme.skin.toLowerCase()}.png`}
         alt={piece.name}
       />
     </div>

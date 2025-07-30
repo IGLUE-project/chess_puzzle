@@ -1,142 +1,7 @@
-export const ESCAPP_CLIENT_SETTINGS = {
-  imagesPath: "./images/",
-};
-
-export function emptyChessboard() {
-  return Array(8)
-    .fill()
-    .map(() => Array(8).fill(null));
-}
-export function defaultChessboard() {
-  let chessboard = emptyChessboard();
-
-  chessboard[0] = [
-    { id: 108, name: "Rook", blanca: false, class: "", position: { x: 0, y: 0 }, initialPosition: { x: 0, y: 0 } },
-    { id: 109, name: "Knight", blanca: false, class: "", position: { x: 0, y: 1 }, initialPosition: { x: 0, y: 1 } },
-    { id: 110, name: "Bishop", blanca: false, class: "", position: { x: 0, y: 2 }, initialPosition: { x: 0, y: 2 } },
-    { id: 111, name: "Queen", blanca: false, class: "", position: { x: 0, y: 3 }, initialPosition: { x: 0, y: 3 } },
-    { id: 112, name: "King", blanca: false, class: "", position: { x: 0, y: 4 }, initialPosition: { x: 0, y: 4 } },
-    { id: 113, name: "Bishop", blanca: false, class: "", position: { x: 0, y: 5 }, initialPosition: { x: 0, y: 5 } },
-    { id: 114, name: "Knight", blanca: false, class: "", position: { x: 0, y: 6 }, initialPosition: { x: 0, y: 6 } },
-    { id: 115, name: "Rook", blanca: false, class: "", position: { x: 0, y: 7 }, initialPosition: { x: 0, y: 7 } },
-  ];
-  chessboard[1] = Array(8)
-    .fill()
-    .map((_, i) => ({
-      id: i + 100,
-      name: "Pawn",
-      blanca: false,
-      class: "",
-      position: { x: 1, y: i },
-      initialPosition: { x: 1, y: i },
-    }));
-  chessboard[6] = Array(8)
-    .fill()
-    .map((_, i) => ({
-      id: i + 16 + 100,
-      name: "Pawn",
-      blanca: true,
-      class: "",
-      position: { x: 6, y: i },
-      initialPosition: { x: 6, y: i },
-    }));
-
-  chessboard[7] = [
-    { id: 124, name: "Rook", blanca: true, class: "", position: { x: 7, y: 0 }, initialPosition: { x: 7, y: 0 } },
-    { id: 125, name: "Knight", blanca: true, class: "", position: { x: 7, y: 1 }, initialPosition: { x: 7, y: 1 } },
-    { id: 126, name: "Bishop", blanca: true, class: "", position: { x: 7, y: 2 }, initialPosition: { x: 7, y: 2 } },
-    { id: 127, name: "Queen", blanca: true, class: "", position: { x: 7, y: 3 }, initialPosition: { x: 7, y: 3 } },
-    { id: 128, name: "King", blanca: true, class: "", position: { x: 7, y: 4 }, initialPosition: { x: 7, y: 4 } },
-    { id: 129, name: "Bishop", blanca: true, class: "", position: { x: 7, y: 5 }, initialPosition: { x: 7, y: 5 } },
-    { id: 130, name: "Knight", blanca: true, class: "", position: { x: 7, y: 6 }, initialPosition: { x: 7, y: 6 } },
-    { id: 131, name: "Rook", blanca: true, class: "", position: { x: 7, y: 7 }, initialPosition: { x: 7, y: 7 } },
-  ];
-  return chessboard;
-}
-export const BOXPOSITION = { x: -1, y: -1 };
-export const ALLPIECES = [
-  { id: 200, name: "Pawn", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 201, name: "Pawn", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 202, name: "Pawn", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 203, name: "Pawn", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 204, name: "Pawn", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 205, name: "Pawn", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 206, name: "Pawn", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 207, name: "Pawn", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 208, name: "Rook", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 209, name: "Rook", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 210, name: "Bishop", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 211, name: "Bishop", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 212, name: "Knight", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 213, name: "Knight", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 214, name: "King", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 215, name: "Queen", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 216, name: "Pawn", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 217, name: "Pawn", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 218, name: "Pawn", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 219, name: "Pawn", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 220, name: "Pawn", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 221, name: "Pawn", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 222, name: "Pawn", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 223, name: "Pawn", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 224, name: "Rook", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 225, name: "Rook", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 226, name: "Bishop", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 227, name: "Bishop", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 228, name: "Knight", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 229, name: "Knight", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 230, name: "King", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 231, name: "Queen", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-];
-export const ONEPIECEEACH = [
-  { id: 300, name: "Pawn", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 301, name: "Rook", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 302, name: "Bishop", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 303, name: "Knight", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 304, name: "King", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 305, name: "Queen", blanca: false, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 306, name: "Pawn", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 307, name: "Rook", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 308, name: "Bishop", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 309, name: "Knight", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 310, name: "King", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-  { id: 311, name: "Queen", blanca: true, class: "", position: BOXPOSITION, initialPosition: BOXPOSITION },
-];
-export const CONFIG = {
-  ALLPIECES: "all",
-  ONEPIECEEACH: "each",
-  EMPTYBOARD: "empty",
-  CUSTOMBOX: "custom box",
-  CUSTOMCHESSBOARD: "custom chessboard",
-  DEFAULTCHESSBOARD: "default chessboard",
-};
-export const PIECEMAP = {
-  PAWN: "Pawn",
-  ROOK: "Rook",
-  BISHOP: "Bishop",
-  KNIGHT: "Knight",
-  QUEEN: "Queen",
-  KING: "King",
-};
-
-export const THEMES = {
-  BASIC: "BASIC",
-  FUTURISTIC: "FUTURISTIC",
-  STANDARD: "STANDARD",
-  RETRO: "RETRO",
-};
-
 export const DEFAULT_APP_SETTINGS = {
   skin: "STANDARD",
   actionWhenLoadingIfSolved: true,
-  message: undefined,
-  solutionLength: 4,
-  saveState: true,
-
-  box: CONFIG.ONEPIECEEACH,
-  customBox: [],
-  chessBoard: CONFIG.DEFAULTCHESSBOARD,
-  customChessboard: [],
+  initialSetup: "CLASSIC",
 
   backgroundImg: "",
   chessboardImg: "images/basic_chessboard.png",
@@ -147,41 +12,223 @@ export const DEFAULT_APP_SETTINGS = {
   discardAudio: "sounds/box.wav",
 };
 
+export const THEMES = {
+  STANDARD: "STANDARD",
+  FUTURISTIC: "FUTURISTIC",
+  RETRO: "RETRO",
+};
+
 export const THEME_ASSETS = {
   [THEMES.RETRO]: {
-    backgroundImg: "images/ancient_table.png",
-    chessboardImg: "images/ancient_chessboard.png",
-    boxImg: "images/ancient_box.png",
-    dragAudio: "sounds/move-check.mp3",
-    dropAudio: "sounds/move-self.mp3",
-    resetAudio: "sounds/reset.mp3",
-    discardAudio: "sounds/box.wav",
-  },
-  [THEMES.BASIC]: {
-    backgroundImg: "images/wooden_table.png",
-    chessboardImg: "images/basic_chessboard.png",
-    boxImg: "images/basic_box.svg",
+    backgroundImg: "images/background_retro.png",
+    chessboardImg: "images/board_retro.png",
+    boxImg: "images/box_retro.png",
     dragAudio: "sounds/move-check.mp3",
     dropAudio: "sounds/move-self.mp3",
     resetAudio: "sounds/reset.mp3",
     discardAudio: "sounds/box.wav",
   },
   [THEMES.STANDARD]: {
-    backgroundImg: "images/wooden_table.png",
-    chessboardImg: "images/basic_chessboard.png",
-    boxImg: "images/basic_box.svg",
+    backgroundImg: "images/background_standard.png",
+    chessboardImg: "images/board_standard.png",
+    boxImg: "images/box_standard.svg",
     dragAudio: "sounds/move-check.mp3",
     dropAudio: "sounds/move-self.mp3",
     resetAudio: "sounds/reset.mp3",
     discardAudio: "sounds/box.wav",
   },
   [THEMES.FUTURISTIC]: {
-    backgroundImg: "images/background_futuristic_alt.png",
-    chessboardImg: "images/futuristic_chessboard.png",
-    boxImg: "images/futuristic_box.svg",
+    backgroundImg: "images/background_futuristic.png",
+    chessboardImg: "images/board_futuristic.png",
+    boxImg: "images/box_futuristic.svg",
     dragAudio: "sounds/move-check.mp3",
     dropAudio: "sounds/move-self.mp3",
     resetAudio: "sounds/reset.mp3",
     discardAudio: "sounds/box.wav",
   },
+};
+
+export function createEmptyBoard() {
+  return Array(8)
+    .fill()
+    .map(() => Array(8).fill(null));
+}
+export const BOARD_EMPTY = createEmptyBoard();
+
+function createClassicBoard() {
+  let chessboard = createEmptyBoard();
+  
+  //White pieces
+  chessboard[7] = [
+    { id: 1, name: "Rook", white: true, class: "", position: { x: 7, y: 0 }, initialPosition: { x: 7, y: 0 } },
+    { id: 2, name: "Knight", white: true, class: "", position: { x: 7, y: 1 }, initialPosition: { x: 7, y: 1 } },
+    { id: 3, name: "Bishop", white: true, class: "", position: { x: 7, y: 2 }, initialPosition: { x: 7, y: 2 } },
+    { id: 4, name: "Queen", white: true, class: "", position: { x: 7, y: 3 }, initialPosition: { x: 7, y: 3 } },
+    { id: 5, name: "King", white: true, class: "", position: { x: 7, y: 4 }, initialPosition: { x: 7, y: 4 } },
+    { id: 6, name: "Bishop", white: true, class: "", position: { x: 7, y: 5 }, initialPosition: { x: 7, y: 5 } },
+    { id: 7, name: "Knight", white: true, class: "", position: { x: 7, y: 6 }, initialPosition: { x: 7, y: 6 } },
+    { id: 8, name: "Rook", white: true, class: "", position: { x: 7, y: 7 }, initialPosition: { x: 7, y: 7 } },
+  ];
+  chessboard[6] = Array(8)
+  .fill()
+  .map((_, i) => ({
+    id: i + 9,
+    name: "Pawn",
+    white: true,
+    class: "",
+    position: { x: 6, y: i },
+    initialPosition: { x: 6, y: i },
+  }));
+
+  //Black pieces
+  chessboard[0] = [
+    { id: 17, name: "Rook", white: false, class: "", position: { x: 0, y: 0 }, initialPosition: { x: 0, y: 0 } },
+    { id: 18, name: "Knight", white: false, class: "", position: { x: 0, y: 1 }, initialPosition: { x: 0, y: 1 } },
+    { id: 19, name: "Bishop", white: false, class: "", position: { x: 0, y: 2 }, initialPosition: { x: 0, y: 2 } },
+    { id: 20, name: "Queen", white: false, class: "", position: { x: 0, y: 3 }, initialPosition: { x: 0, y: 3 } },
+    { id: 21, name: "King", white: false, class: "", position: { x: 0, y: 4 }, initialPosition: { x: 0, y: 4 } },
+    { id: 22, name: "Bishop", white: false, class: "", position: { x: 0, y: 5 }, initialPosition: { x: 0, y: 5 } },
+    { id: 23, name: "Knight", white: false, class: "", position: { x: 0, y: 6 }, initialPosition: { x: 0, y: 6 } },
+    { id: 24, name: "Rook", white: false, class: "", position: { x: 0, y: 7 }, initialPosition: { x: 0, y: 7 } },
+  ];
+  chessboard[1] = Array(8)
+  .fill()
+  .map((_, i) => ({
+    id: i + 25,
+    name: "Pawn",
+    white: false,
+    class: "",
+    position: { x: 1, y: i },
+    initialPosition: { x: 1, y: i },
+  }));
+
+  return chessboard;
+}
+export const BOARD_CLASSIC = createClassicBoard();
+
+function createBoardAfterQueenGambit() {
+  let chessboard = createClassicBoard();
+
+  chessboard[4][3] = {
+    ...chessboard[6][3],
+    position: { x: 4, y: 3 },
+    initialPosition: { x: 4, y: 3 },
+  };
+  chessboard[6][3] = null;
+
+  chessboard[3][3] = {
+    ...chessboard[1][3],
+    position: { x: 3, y: 3 },
+    initialPosition: { x: 3, y: 3 },
+  };
+  chessboard[1][3] = null;
+
+  chessboard[4][2] = {
+    ...chessboard[6][2],
+    position: { x: 4, y: 2 },
+    initialPosition: { x: 4, y: 2 },
+  };
+  chessboard[6][2] = null;
+
+  return chessboard;
+}
+export const BOARD_QUEEN_GAMBIT = createBoardAfterQueenGambit();
+
+function createBoardAfterSpanishOpening() {
+  let chessboard = createClassicBoard();
+  
+  chessboard[4][4] = {
+    ...chessboard[6][4],
+    position: { x: 4, y: 4 },
+    initialPosition: { x: 4, y: 4 },
+  };
+  chessboard[6][4] = null;
+
+  chessboard[3][4] = {
+    ...chessboard[1][4],
+    position: { x: 3, y: 4 },
+    initialPosition: { x: 3, y: 4 },
+  };
+  chessboard[1][4] = null;
+
+  chessboard[5][5] = {
+    ...chessboard[7][6],
+    position: { x: 5, y: 5 },
+    initialPosition: { x: 5, y: 5 },
+  };
+  chessboard[7][6] = null;
+
+  chessboard[2][2] = {
+    ...chessboard[0][1],
+    position: { x: 2, y: 2 },
+    initialPosition: { x: 2, y: 2 },
+  };
+  chessboard[0][1] = null;
+
+  chessboard[3][1] = {
+    ...chessboard[7][5],
+    position: { x: 3, y: 1 },
+    initialPosition: { x: 3, y: 1 },
+  };
+  chessboard[7][5] = null;
+
+  return chessboard;
+}
+export const BOARD_SPANISH_OPENING = createBoardAfterSpanishOpening();
+
+function createBoardAfterItalianOpening() {
+  let chessboard = createClassicBoard();
+  
+  chessboard[4][4] = {
+    ...chessboard[6][4],
+    position: { x: 4, y: 4 },
+    initialPosition: { x: 4, y: 4 },
+  };
+  chessboard[6][4] = null;
+
+  chessboard[3][4] = {
+    ...chessboard[1][4],
+    position: { x: 3, y: 4 },
+    initialPosition: { x: 3, y: 4 },
+  };
+  chessboard[1][4] = null;
+
+  chessboard[5][5] = {
+    ...chessboard[7][6],
+    position: { x: 5, y: 5 },
+    initialPosition: { x: 5, y: 5 },
+  };
+  chessboard[7][6] = null;
+
+  chessboard[2][2] = {
+    ...chessboard[0][1],
+    position: { x: 2, y: 2 },
+    initialPosition: { x: 2, y: 2 },
+  };
+  chessboard[0][1] = null;
+
+  chessboard[4][2] = {
+    ...chessboard[7][5],
+    position: { x: 4, y: 2 },
+    initialPosition: { x: 4, y: 2 },
+  };
+  chessboard[7][5] = null;
+
+  return chessboard;
+}
+export const BOARD_ITALIAN_OPENING = createBoardAfterItalianOpening();
+
+export const BOX_POSITION = { x: -1, y: -1 };
+export const BOX_EMPTY = [];
+export const BOX_ALL_PIECES = BOARD_CLASSIC
+  .flat()
+  .filter(piece => piece != null)
+  .map(piece => ({
+    ...piece,
+    position: { ...BOX_POSITION },
+    initialPosition: { ...BOX_POSITION }
+  }));
+
+export const ESCAPP_CLIENT_SETTINGS = {
+  imagesPath: "./images/",
 };
