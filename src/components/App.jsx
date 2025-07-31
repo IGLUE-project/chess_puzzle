@@ -250,7 +250,7 @@ export default function App() {
   }
 
   function winAnimation(_solution) {
-    new Audio("sounds/win.wav").play();
+    new Audio(appSettings.winAudio).play();
     dispatch(setSolved(true));
 
     const sol = _solution ? _solution : solution;

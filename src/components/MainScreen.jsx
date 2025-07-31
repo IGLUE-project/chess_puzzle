@@ -9,7 +9,6 @@ import { getIsSolved } from "../redux/ChessboardSliceSelector";
 import "./../assets/scss/MainScreen.scss";
 
 let dropAudio;
-let dragAudio;
 let boxAudio;
 let resetAudio;
 
@@ -25,7 +24,6 @@ export default function MainScreen({ boxPieces, setBoxPieces, resetPieces }) {
 
   useEffect(() => {
     dropAudio = document.getElementById("audio_drop");
-    dragAudio = document.getElementById("audio_grab");
     boxAudio = document.getElementById("audio_dropbox");
     resetAudio = document.getElementById("audio_reset");
 
@@ -57,8 +55,6 @@ export default function MainScreen({ boxPieces, setBoxPieces, resetPieces }) {
     // e.dataTransfer.setDragImage(emptyImg, 0, 0);
     e.dataTransfer.effectAllowed = "move";
 
-
-    dragAudio.play();
     setPieceDrag({ ...piece, class: "dragged" });
     setBoxPieces((pieces) =>
       pieces.map((p) => {
@@ -150,7 +146,6 @@ export default function MainScreen({ boxPieces, setBoxPieces, resetPieces }) {
       </div>
       <>
         <audio id="audio_drop" src={appSettings.dropAudio} autostart="false" preload="auto" />
-        <audio id="audio_grab" src={appSettings.dragAudio} autostart="false" preload="auto" />
         <audio id="audio_dropbox" src={appSettings.discardAudio} autostart="false" preload="auto" />
         <audio id="audio_reset" src={appSettings.resetAudio} autostart="false" preload="auto" />
       </>

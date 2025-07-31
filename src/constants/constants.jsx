@@ -18,10 +18,11 @@ export const DEFAULT_APP_SETTINGS = {
   queen_black_img: "images/Queen_black_standard.svg",
   king_white_img: "images/King_white_standard.svg",
   king_black_img: "images/King_black_standard.svg",
-  dragAudio: "sounds/move-check.mp3",
-  dropAudio: "sounds/move-self.mp3",
-  resetAudio: "sounds/reset.mp3",
-  discardAudio: "sounds/box.wav",
+  dropAudio: "sounds/move_end_standard.mp3",
+  discardAudio: "sounds/move_end_tobox_standard.wav",
+  captureAudio: "sounds/capture_standard.wav",
+  resetAudio: "sounds/reset_standard.mp3",
+  winAudio: "sounds/win_standard.wav",
 };
 
 export const SKIN_SETTINGS = {
@@ -47,6 +48,9 @@ export const SKIN_SETTINGS = {
     queen_black_img: "images/Queen_black_futuristic.png",
     king_white_img: "images/King_white_futuristic.png",
     king_black_img: "images/King_black_futuristic.png",
+    dropAudio: "sounds/move_end_futuristic.wav",
+    discardAudio: "sounds/move_end_tobox_futuristic.wav",
+    resetAudio: "sounds/reset_futuristic.wav",
   },
 };
 
