@@ -1,7 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { GlobalContext } from "./GlobalContext";
 import Piece from "./Piece";
-import "../assets/scss/Box.scss";
 
 export default function Box({ boxPieces, handleDragStart, handleDragEnd, size }) {
   const { appSettings } = useContext(GlobalContext);

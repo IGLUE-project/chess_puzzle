@@ -60,13 +60,35 @@ div.Piece {
   }
 }
 
-#global_wrapper.futuristic div.Board div.Piece {
-  width: 70%;
-  height: 70%;
+@keyframes glow {
+  0% {
+    filter: drop-shadow(0 0 5px #ffd700);
+  }
+  50% {
+    filter: drop-shadow(0 0 15px #fff700);
+  }
+  100% {
+    filter: drop-shadow(0 0 5px #ffd700);
+  }
 }
 
-#global_wrapper.futuristic div.Board div.Piece.pawn {
-  height: 60%;
+div.Box {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  background-size: 100% 100%; 
+  background-position: center;
+  background-repeat: no-repeat;
+
+  div.square {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    div.Piece {
+      width: 99%;
+      height: 99%;
+    }
+  }
 }
 
 #global_wrapper.standard div.Board div.Piece.bishop {
@@ -78,14 +100,19 @@ div.Piece {
   width: 100%;
 }
 
-@keyframes glow {
-  0% {
-    filter: drop-shadow(0 0 5px #ffd700);
-  }
-  50% {
-    filter: drop-shadow(0 0 15px #fff700);
-  }
-  100% {
-    filter: drop-shadow(0 0 5px #ffd700);
-  }
+#global_wrapper.futuristic div.Board div.Piece {
+  width: 70%;
+  height: 70%;
+}
+
+#global_wrapper.futuristic div.Board div.Piece.pawn {
+  height: 60%;
+}
+
+#global_wrapper.futuristic div.Box div.Piece {
+  height: 90%;
+}
+
+#global_wrapper.futuristic div.Box div.Piece.pawn {
+  height: 80%;
 }
