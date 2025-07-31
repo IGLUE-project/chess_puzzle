@@ -2,17 +2,7 @@ import { useSelector } from "react-redux";
 import { getSquare } from "../redux/ChessboardSliceSelector";
 import Piece from "./Piece";
 
-export default function Square({
-  color,
-  handleDragEnter,
-  handleDragLeave,
-  handleDrop,
-  handleDragStart,
-  handleDragEnd,
-  x,
-  y,
-  theme,
-}) {
+export default function Square({color, handleDragEnter, handleDragLeave, handleDrop, handleDragStart, handleDragEnd, x, y}) {
   const piece = useSelector((state) => getSquare(state, { x, y }));
 
   return (
@@ -23,7 +13,7 @@ export default function Square({
       onDragOver={(e) => e.preventDefault()}
       className={`Square ${color}`}
     >
-      {piece && <Piece piece={piece} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} theme={theme} />}
+      {piece && <Piece piece={piece} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} />}
     </div>
   );
 }

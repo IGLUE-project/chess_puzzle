@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { cleanPiece, cleanSquare, saveSquare } from "../redux/ChessboardSlicer";
 import Board from "./Board";
 import Box from "./Box";
-import { BOX_POSITION, THEMES } from "../constants/constants";
+import { BOX_POSITION } from "../constants/constants";
 import { getIsSolved } from "../redux/ChessboardSliceSelector";
 import "./../assets/scss/MainScreen.scss";
 
@@ -13,8 +13,8 @@ let dragAudio;
 let boxAudio;
 let resetAudio;
 
-export default function MainScreen({ boxPieces, setBoxPieces, resetPieces, theme }) {
-  const { I18n } = useContext(GlobalContext);
+export default function MainScreen({ boxPieces, setBoxPieces, resetPieces }) {
+  const { appSettings, I18n } = useContext(GlobalContext);
   const dispatch = useDispatch();
   const [pieceDrag, setPieceDrag] = useState(null);
   const [size, setSize] = useState({
@@ -28,9 +28,7 @@ export default function MainScreen({ boxPieces, setBoxPieces, resetPieces, theme
     dragAudio = document.getElementById("audio_grab");
     boxAudio = document.getElementById("audio_dropbox");
     resetAudio = document.getElementById("audio_reset");
-  }, [theme]);
 
-  useEffect(() => {
     const handleResize = () => {
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
@@ -130,31 +128,31 @@ export default function MainScreen({ boxPieces, setBoxPieces, resetPieces, theme
   }
 
   return (
-    <div id="MainScreen" className={`screen_wrapper bg-${theme.name} `} style={{ backgroundImage: `url(${theme.backgroundImg})` }}>
+    <div id="MainScreen" className={`screen_wrapper bg-${appSettings.skin} `} style={{ backgroundImage: `url(${appSettings.backgroundImg})` }}>
       {!solved && (
         <div className="buttons-container">
-          <button onClick={() => resetPiecesButton()} className={`button-futuristic`}>{I18n.getTrans("i.reset")}</button>
+          <button onClick={() => resetPiecesButton()} className={`button-reset`}>{I18n.getTrans("i.reset")}</button>
         </div>
       )}
       <div className="frame">
-        <div className={`border-frame border-frame-${theme.name}`} style={{ gap: size.height * 0.05 }}>
+        <div className={`border-frame border-frame-${appSettings.skin}`} style={{ gap: size.height * 0.05 }}>
           <Board
             handleDrop={handleDrop}
             handleDragEnter={handleDragEnter}
             handleDragLeave={handleDragLeave}
             handleDragStart={handleDragStart}
             handleDragEnd={handleDragEnd}
-            theme={theme}
+            appSettings={appSettings}
             size={size}
           />
-          <Box boxPieces={boxPieces} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} theme={theme} size={size} />
+          <Box boxPieces={boxPieces} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} size={size} />
         </div>
       </div>
       <>
-        <audio id="audio_drop" src={theme.dropAudio} autostart="false" preload="auto" />
-        <audio id="audio_grab" src={theme.dragAudio} autostart="false" preload="auto" />
-        <audio id="audio_dropbox" src={theme.discardAudio} autostart="false" preload="auto" />
-        <audio id="audio_reset" src={theme.resetAudio} autostart="false" preload="auto" />
+        <audio id="audio_drop" src={appSettings.dropAudio} autostart="false" preload="auto" />
+        <audio id="audio_grab" src={appSettings.dragAudio} autostart="false" preload="auto" />
+        <audio id="audio_dropbox" src={appSettings.discardAudio} autostart="false" preload="auto" />
+        <audio id="audio_reset" src={appSettings.resetAudio} autostart="false" preload="auto" />
       </>
     </div>
   );

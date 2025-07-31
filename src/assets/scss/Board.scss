@@ -25,11 +25,16 @@ div.Square {
   display: flex;
   align-items: center;
   justify-content: center;
+  //background-color: rgba(255, 0, 0, 0.5);
 }
 
 div.Piece {
-  height: 80%;
-  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  height: auto;
+  max-height: 100%;
   z-index: 1;
 
   &:not(.solved) {
@@ -53,6 +58,24 @@ div.Piece {
   &.highlighted {
     animation: glow 1.5s infinite ease-in-out;
   }
+}
+
+#global_wrapper.futuristic div.Board div.Piece {
+  width: 70%;
+  height: 70%;
+}
+
+#global_wrapper.futuristic div.Board div.Piece.pawn {
+  height: 60%;
+}
+
+#global_wrapper.standard div.Board div.Piece.bishop {
+  width: 95%;
+  margin-left: 5%;
+}
+
+#global_wrapper.standard div.Box div.Piece.bishop {
+  width: 100%;
 }
 
 @keyframes glow {

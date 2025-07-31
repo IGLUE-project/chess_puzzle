@@ -2,21 +2,21 @@
 
 export let ESCAPP_APP_SETTINGS = {
   //Settings that can be specified by the authors
-  skin: "STANDARD", //skin can be "STANDARD", "RETRO", or "FUTURISTIC".
+  skin: "STANDARD", //skin can be "STANDARD" or "FUTURISTIC".
   // backgroundImg: "NONE", //background can be "NONE" or a URL.
   initialSetup: "CLASSIC", //determines the initial position of the pieces on the board and in the box. 
   //The value of initialSetup can be one of the following: "CLASSIC", "EMPTY_BOARD", "QUEEN_GAMBIT", "SPANISH_OPENING", "ITALIAN_OPENING", or "CUSTOM".
 
   //If initialSetup is "CUSTOM". The settings "customBox" and "customBoard" should be defined.
   // customBox: [
-  //   { name: "Pawn", blanca: false },
-  //   { name: "Rook", blanca: true },
+  //   { name: "Pawn", white: false },
+  //   { name: "Rook", white: true },
   // ],
   // customBoard: [
-  //   { position: "a7", name: "Pawn", blanca: false },
-  //   { position: "b7", name: "Pawn", blanca: false },
-  //   { position: "c7", name: "Pawn", blanca: false },
-  //   { position: "d7", name: "Rook", blanca: true },
+  //   { position: "a7", name: "Pawn", white: false },
+  //   { position: "b7", name: "Pawn", white: false },
+  //   { position: "c7", name: "Pawn", white: false },
+  //   { position: "d7", name: "Rook", white: true },
   // ],
 
   //Settings that will be automatically specified by the Escapp server

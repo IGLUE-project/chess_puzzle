@@ -1,13 +1,14 @@
+import { useContext } from "react";
+import { GlobalContext } from "./GlobalContext.jsx";
 import { useSelector } from "react-redux";
 import { getIsSolved } from "../redux/ChessboardSliceSelector";
-import { THEMES } from "../constants/constants";
 
-export default function Piece({ piece, handleDragStart, handleDragEnd, theme }) {
-  const img = piece.white ? piece.name : `${piece.name}_black`;
+export default function Piece({ piece, handleDragStart, handleDragEnd }) {
+  const { appSettings } = useContext(GlobalContext);
   const solved = useSelector(getIsSolved);
 
   return (
-    <div className={`Piece ${piece.class}${solved ? " solved" : ""}`}>
+    <div className={`Piece ${piece.name.toLowerCase()} ${piece.class} ${solved ? " solved" : ""}`}>
       <img
         draggable={!solved}
         onDragStart={(e) => {
@@ -16,7 +17,7 @@ export default function Piece({ piece, handleDragStart, handleDragEnd, theme }) 
         onDragEnd={(e) => {
           if (!solved) handleDragEnd(e, piece);
         }}
-        src={`images/${img}_${theme.skin.toLowerCase()}.png`}
+        src={appSettings[piece.name.toLowerCase() + "_" + (piece.white ? "white" : "black") + "_img"]}
         alt={piece.name}
       />
     </div>

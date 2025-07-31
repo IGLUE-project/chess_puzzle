@@ -1,27 +1,23 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import "./../assets/scss/app.scss";
-
-import {
-  DEFAULT_APP_SETTINGS,
-  THEME_ASSETS,
-  ESCAPP_CLIENT_SETTINGS,
-  BOARD_EMPTY,
-  createEmptyBoard,
-  BOARD_CLASSIC,
-  BOARD_QUEEN_GAMBIT,
-  BOARD_SPANISH_OPENING,
-  BOARD_ITALIAN_OPENING,
-  BOX_POSITION,
-  BOX_EMPTY,
-  BOX_ALL_PIECES,
-} from "../constants/constants.jsx";
-
+import { GlobalContext } from "./GlobalContext.jsx";
 import { getChessboard } from "../redux/ChessboardSliceSelector.jsx";
 import { saveChessboard, setPieceSolved, setSolved } from "../redux/ChessboardSlicer.jsx";
-import { GlobalContext } from "./GlobalContext.jsx";
+import {
+  DEFAULT_APP_SETTINGS,
+  SKIN_SETTINGS,
+  ESCAPP_CLIENT_SETTINGS,
+  createEmptyBoard,
+  createClassicBoard,
+  createBoardAfterQueenGambit,
+  createBoardAfterSpanishOpening,
+  createBoardAfterItalianOpening,
+  BOX_POSITION,
+  BOX_EMPTY,
+  createBoxWithAllPieces,
+} from "../constants/constants.jsx";
 import MainScreen from "./MainScreen.jsx";
+import "./../assets/scss/app.scss";
 
 export default function App() {
   const { escapp, setEscapp, appSettings, setAppSettings, Storage, setStorage, Utils, I18n } = useContext(GlobalContext);
@@ -162,10 +158,8 @@ export default function App() {
       _appSettings.skin = DEFAULT_APP_SETTINGS.skin;
     }
 
-    let skinSettings = THEME_ASSETS[_appSettings.skin] || {};
-
+    let skinSettings = SKIN_SETTINGS[_appSettings.skin] || {};
     let DEFAULT_APP_SETTINGS_SKIN = Utils.deepMerge(DEFAULT_APP_SETTINGS, skinSettings);
-
     // Merge _appSettings with DEFAULT_APP_SETTINGS_SKIN to obtain final app settings
     _appSettings = Utils.deepMerge(DEFAULT_APP_SETTINGS_SKIN, _appSettings);
 
@@ -174,19 +168,19 @@ export default function App() {
 
     switch (_appSettings.initialSetup) {
       case "EMPTY_BOARD":
-        newChessboard = BOARD_EMPTY;
-        newBox = BOX_ALL_PIECES;
+        newChessboard = createEmptyBoard();
+        newBox = createBoxWithAllPieces();
         break;
       case "QUEEN_GAMBIT":
-       newChessboard = BOARD_QUEEN_GAMBIT;
+       newChessboard = createBoardAfterQueenGambit();
        newBox = BOX_EMPTY;
        break;
       case "SPANISH_OPENING":
-       newChessboard = BOARD_SPANISH_OPENING;
+       newChessboard = createBoardAfterSpanishOpening();
        newBox = BOX_EMPTY;
        break;
       case "ITALIAN_OPENING":
-       newChessboard = BOARD_ITALIAN_OPENING;
+       newChessboard = createBoardAfterItalianOpening();
        newBox = BOX_EMPTY;
        break;
       case "CUSTOM":
@@ -212,7 +206,7 @@ export default function App() {
         break;
       case "CLASSIC":
       default:
-        newChessboard = BOARD_CLASSIC;
+        newChessboard = createClassicBoard();
         newBox = BOX_EMPTY;
     }
 
@@ -395,7 +389,7 @@ export default function App() {
     >
       <div className={`main-background ${fail ? "fail" : ""}`}>
         {!loading && (
-          <MainScreen boxPieces={boxPieces} setBoxPieces={setBoxPieces} resetPieces={resetPieces} theme={appSettings} />
+          <MainScreen boxPieces={boxPieces} setBoxPieces={setBoxPieces} resetPieces={resetPieces} />
         )}
       </div>
     </div>

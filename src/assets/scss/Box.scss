@@ -2,9 +2,9 @@ div.Box {
   display: flex;
   flex-wrap: wrap;
   align-content: center;
+  background-size: 100% 100%; 
   background-position: center;
   background-repeat: no-repeat;
-  background-size: contain;
 
   div.square {
     display: flex;

@@ -3,48 +3,50 @@ export const DEFAULT_APP_SETTINGS = {
   actionWhenLoadingIfSolved: true,
   initialSetup: "CLASSIC",
 
-  backgroundImg: "",
-  chessboardImg: "images/basic_chessboard.png",
-  boxImg: "images/basic_box.svg",
+  backgroundImg: "images/background_standard.png",
+  chessboardImg: "images/board_standard.png",
+  boxImg: "images/box_standard.png",
+  pawn_white_img: "images/Pawn_white_standard.svg",
+  pawn_black_img: "images/Pawn_black_standard.svg",
+  rook_white_img: "images/Rook_white_standard.svg",
+  rook_black_img: "images/Rook_black_standard.svg",
+  knight_white_img: "images/Knight_white_standard.svg",
+  knight_black_img: "images/Knight_black_standard.svg",
+  bishop_white_img: "images/Bishop_white_standard.svg",
+  bishop_black_img: "images/Bishop_black_standard.svg",
+  queen_white_img: "images/Queen_white_standard.svg",
+  queen_black_img: "images/Queen_black_standard.svg",
+  king_white_img: "images/King_white_standard.svg",
+  king_black_img: "images/King_black_standard.svg",
   dragAudio: "sounds/move-check.mp3",
   dropAudio: "sounds/move-self.mp3",
   resetAudio: "sounds/reset.mp3",
   discardAudio: "sounds/box.wav",
 };
 
-export const THEMES = {
-  STANDARD: "STANDARD",
-  FUTURISTIC: "FUTURISTIC",
-  RETRO: "RETRO",
-};
-
-export const THEME_ASSETS = {
-  [THEMES.RETRO]: {
+export const SKIN_SETTINGS = {
+  "STANDARD": {
+  },
+  "RETRO": {
     backgroundImg: "images/background_retro.png",
-    chessboardImg: "images/board_retro.png",
     boxImg: "images/box_retro.png",
-    dragAudio: "sounds/move-check.mp3",
-    dropAudio: "sounds/move-self.mp3",
-    resetAudio: "sounds/reset.mp3",
-    discardAudio: "sounds/box.wav",
   },
-  [THEMES.STANDARD]: {
-    backgroundImg: "images/background_standard.png",
-    chessboardImg: "images/board_standard.png",
-    boxImg: "images/box_standard.svg",
-    dragAudio: "sounds/move-check.mp3",
-    dropAudio: "sounds/move-self.mp3",
-    resetAudio: "sounds/reset.mp3",
-    discardAudio: "sounds/box.wav",
-  },
-  [THEMES.FUTURISTIC]: {
+  "FUTURISTIC": {
     backgroundImg: "images/background_futuristic.png",
     chessboardImg: "images/board_futuristic.png",
-    boxImg: "images/box_futuristic.svg",
-    dragAudio: "sounds/move-check.mp3",
-    dropAudio: "sounds/move-self.mp3",
-    resetAudio: "sounds/reset.mp3",
-    discardAudio: "sounds/box.wav",
+    boxImg: "images/box_futuristic.png",
+    pawn_white_img: "images/Pawn_white_futuristic.png",
+    pawn_black_img: "images/Pawn_black_futuristic.png",
+    rook_white_img: "images/Rook_white_futuristic.png",
+    rook_black_img: "images/Rook_black_futuristic.png",
+    knight_white_img: "images/Knight_white_futuristic.png",
+    knight_black_img: "images/Knight_black_futuristic.png",
+    bishop_white_img: "images/Bishop_white_futuristic.png",
+    bishop_black_img: "images/Bishop_black_futuristic.png",
+    queen_white_img: "images/Queen_white_futuristic.png",
+    queen_black_img: "images/Queen_black_futuristic.png",
+    king_white_img: "images/King_white_futuristic.png",
+    king_black_img: "images/King_black_futuristic.png",
   },
 };
 
@@ -53,9 +55,8 @@ export function createEmptyBoard() {
     .fill()
     .map(() => Array(8).fill(null));
 }
-export const BOARD_EMPTY = createEmptyBoard();
 
-function createClassicBoard() {
+export function createClassicBoard() {
   let chessboard = createEmptyBoard();
   
   //White pieces
@@ -72,7 +73,7 @@ function createClassicBoard() {
   chessboard[6] = Array(8)
   .fill()
   .map((_, i) => ({
-    id: i + 9,
+    id: i + 9 + 0,
     name: "Pawn",
     white: true,
     class: "",
@@ -104,9 +105,8 @@ function createClassicBoard() {
 
   return chessboard;
 }
-export const BOARD_CLASSIC = createClassicBoard();
 
-function createBoardAfterQueenGambit() {
+export function createBoardAfterQueenGambit() {
   let chessboard = createClassicBoard();
 
   chessboard[4][3] = {
@@ -132,9 +132,8 @@ function createBoardAfterQueenGambit() {
 
   return chessboard;
 }
-export const BOARD_QUEEN_GAMBIT = createBoardAfterQueenGambit();
 
-function createBoardAfterSpanishOpening() {
+export function createBoardAfterSpanishOpening() {
   let chessboard = createClassicBoard();
   
   chessboard[4][4] = {
@@ -174,9 +173,8 @@ function createBoardAfterSpanishOpening() {
 
   return chessboard;
 }
-export const BOARD_SPANISH_OPENING = createBoardAfterSpanishOpening();
 
-function createBoardAfterItalianOpening() {
+export function createBoardAfterItalianOpening() {
   let chessboard = createClassicBoard();
   
   chessboard[4][4] = {
@@ -216,18 +214,20 @@ function createBoardAfterItalianOpening() {
 
   return chessboard;
 }
-export const BOARD_ITALIAN_OPENING = createBoardAfterItalianOpening();
 
 export const BOX_POSITION = { x: -1, y: -1 };
 export const BOX_EMPTY = [];
-export const BOX_ALL_PIECES = BOARD_CLASSIC
-  .flat()
-  .filter(piece => piece != null)
-  .map(piece => ({
-    ...piece,
-    position: { ...BOX_POSITION },
-    initialPosition: { ...BOX_POSITION }
-  }));
+
+export function createBoxWithAllPieces() {
+  return createClassicBoard()
+    .flat()
+    .filter(piece => piece != null)
+    .map(piece => ({
+      ...piece,
+      position: { ...BOX_POSITION },
+      initialPosition: { ...BOX_POSITION }
+    }));
+}
 
 export const ESCAPP_CLIENT_SETTINGS = {
   imagesPath: "./images/",

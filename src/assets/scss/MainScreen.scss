@@ -20,6 +20,17 @@
   }
 }
 
+.button-reset {
+  border: 1px solid #ddd; 
+  background-color: black;
+  color: #ddd;
+}
+
+.button-reset:hover {
+  color: white;
+  border-color: white;
+}
+
 .border-frame-futuristic {
   background-color: #0a0a1848;
   box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
@@ -27,7 +38,7 @@
 
 .button-futuristic {
   border-radius: 4px;
-  background-color: rgba(0, 14, 143, 0.363);
+  background-color: rgba(35, 35, 40, 0.6);
   color: rgb(198, 211, 218);
   border: 1px rgb(116, 124, 145) solid;
 }
@@ -43,6 +54,7 @@
   color: rgb(216, 212, 197);
   border: 0px;
 }
+
 .button-basic:focus-visible,
 .button-basic:focus {
   outline: rgb(255, 180, 118) 1px solid;
@@ -51,6 +63,7 @@
 .bg-basic {
   background-color: rgb(34, 26, 12);
 }
+
 .bg-futuristic {
   background-color: #10112779;
   background-size: contain;
