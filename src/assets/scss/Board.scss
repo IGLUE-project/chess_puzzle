@@ -11,7 +11,6 @@ div.Board {
     aspect-ratio: 1;
     justify-content: center;
     align-items: center;
-
     .row {
       height: 100%;
       width: 100%;
@@ -84,10 +83,6 @@ div.Box {
     display: flex;
     align-items: center;
     justify-content: center;
-    div.Piece {
-      width: 99%;
-      height: 99%;
-    }
   }
 }
 
@@ -100,19 +95,19 @@ div.Box {
   width: 100%;
 }
 
-#global_wrapper.futuristic div.Board div.Piece {
+#global_wrapper.realistic div.Board div.Piece, #global_wrapper.realistic div.BoX div.Piece {
+  width: 95%;
+}
+
+#global_wrapper.realistic div.Board div.Piece.pawn, #global_wrapper.realistic div.BoX div.Piece.pawn {
+  width: 80%;
+}
+
+#global_wrapper.futuristic div.Board div.Piece, #global_wrapper.futuristic div.Box div.Piece {
   width: 70%;
   height: 70%;
 }
 
-#global_wrapper.futuristic div.Board div.Piece.pawn {
-  height: 60%;
-}
-
-#global_wrapper.futuristic div.Box div.Piece {
-  height: 90%;
-}
-
-#global_wrapper.futuristic div.Box div.Piece.pawn {
-  height: 80%;
+#global_wrapper.futuristic div.Board div.Piece.pawn, #global_wrapper.futuristic div.Box div.Piece.pawn {
+  height: 65%;
 }

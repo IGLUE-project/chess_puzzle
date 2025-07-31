@@ -28,9 +28,20 @@ export const DEFAULT_APP_SETTINGS = {
 export const SKIN_SETTINGS = {
   "STANDARD": {
   },
-  "RETRO": {
-    backgroundImg: "images/background_retro.png",
-    boxImg: "images/box_retro.png",
+  "REALISTIC": {
+    chessboardImg: "images/board_realistic.png",
+    pawn_white_img: "images/Pawn_white_realistic.png",
+    pawn_black_img: "images/Pawn_black_realistic.png",
+    rook_white_img: "images/Rook_white_realistic.png",
+    rook_black_img: "images/Rook_black_realistic.png",
+    knight_white_img: "images/Knight_white_realistic.png",
+    knight_black_img: "images/Knight_black_realistic.png",
+    bishop_white_img: "images/Bishop_white_realistic.png",
+    bishop_black_img: "images/Bishop_black_realistic.png",
+    queen_white_img: "images/Queen_white_realistic.png",
+    queen_black_img: "images/Queen_black_realistic.png",
+    king_white_img: "images/King_white_realistic.png",
+    king_black_img: "images/King_black_realistic.png",
   },
   "FUTURISTIC": {
     backgroundImg: "images/background_futuristic.png",

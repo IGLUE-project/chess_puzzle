@@ -9,9 +9,11 @@ export default function Board({handleDragEnter, handleDrop, handleDragStart, han
   const { appSettings } = useContext(GlobalContext);
   const chessboard = useSelector(getChessboard);
 
-
   let padding;
   switch (appSettings.skin) {
+    case "REALISTIC":
+      padding = size.height * 0.052;
+      break;
     case "FUTURISTIC":
       padding = size.height * 0.045;
       break;

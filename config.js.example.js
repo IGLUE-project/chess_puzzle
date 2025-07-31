@@ -2,7 +2,7 @@
 
 export let ESCAPP_APP_SETTINGS = {
   //Settings that can be specified by the authors
-  skin: "STANDARD", //skin can be "STANDARD" or "FUTURISTIC".
+  skin: "STANDARD", //skin can be "STANDARD", "REALISTIC" or "FUTURISTIC".
   // backgroundImg: "NONE", //background can be "NONE" or a URL.
   initialSetup: "CLASSIC", //determines the initial position of the pieces on the board and in the box. 
   //The value of initialSetup can be one of the following: "CLASSIC", "EMPTY_BOARD", "QUEEN_GAMBIT", "SPANISH_OPENING", "ITALIAN_OPENING", or "CUSTOM".
@@ -25,7 +25,7 @@ export let ESCAPP_APP_SETTINGS = {
 
   escappClientSettings: {
     endpoint: "https://escapp.es/api/escapeRooms/id",
-    linkedPuzzleIds: [1],
+    linkedPuzzleIds: [4],
     rtc: false,
   },
 };
