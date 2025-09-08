@@ -2,6 +2,7 @@ export const DEFAULT_APP_SETTINGS = {
   skin: "STANDARD",
   actionWhenLoadingIfSolved: true,
   initialSetup: "CLASSIC",
+  resetOnFail: false,
 
   backgroundImg: "images/background_standard.png",
   chessboardImg: "images/board_standard.png",
@@ -26,9 +27,8 @@ export const DEFAULT_APP_SETTINGS = {
 };
 
 export const SKIN_SETTINGS = {
-  "STANDARD": {
-  },
-  "REALISTIC": {
+  STANDARD: {},
+  REALISTIC: {
     chessboardImg: "images/board_realistic.png",
     pawn_white_img: "images/Pawn_white_realistic.png",
     pawn_black_img: "images/Pawn_black_realistic.png",
@@ -43,7 +43,7 @@ export const SKIN_SETTINGS = {
     king_white_img: "images/King_white_realistic.png",
     king_black_img: "images/King_black_realistic.png",
   },
-  "FUTURISTIC": {
+  FUTURISTIC: {
     backgroundImg: "images/background_futuristic.png",
     chessboardImg: "images/board_futuristic.png",
     boxImg: "images/box_futuristic.png",
@@ -73,50 +73,50 @@ export function createEmptyBoard() {
 
 export function createClassicBoard() {
   let chessboard = createEmptyBoard();
-  
-  //White pieces
-  chessboard[7] = [
-    { id: 1, name: "Rook", white: true, class: "", position: { x: 7, y: 0 }, initialPosition: { x: 7, y: 0 } },
-    { id: 2, name: "Knight", white: true, class: "", position: { x: 7, y: 1 }, initialPosition: { x: 7, y: 1 } },
-    { id: 3, name: "Bishop", white: true, class: "", position: { x: 7, y: 2 }, initialPosition: { x: 7, y: 2 } },
-    { id: 4, name: "Queen", white: true, class: "", position: { x: 7, y: 3 }, initialPosition: { x: 7, y: 3 } },
-    { id: 5, name: "King", white: true, class: "", position: { x: 7, y: 4 }, initialPosition: { x: 7, y: 4 } },
-    { id: 6, name: "Bishop", white: true, class: "", position: { x: 7, y: 5 }, initialPosition: { x: 7, y: 5 } },
-    { id: 7, name: "Knight", white: true, class: "", position: { x: 7, y: 6 }, initialPosition: { x: 7, y: 6 } },
-    { id: 8, name: "Rook", white: true, class: "", position: { x: 7, y: 7 }, initialPosition: { x: 7, y: 7 } },
-  ];
-  chessboard[6] = Array(8)
-  .fill()
-  .map((_, i) => ({
-    id: i + 9 + 0,
-    name: "Pawn",
-    white: true,
-    class: "",
-    position: { x: 6, y: i },
-    initialPosition: { x: 6, y: i },
-  }));
 
-  //Black pieces
+  //White pieces
   chessboard[0] = [
-    { id: 17, name: "Rook", white: false, class: "", position: { x: 0, y: 0 }, initialPosition: { x: 0, y: 0 } },
-    { id: 18, name: "Knight", white: false, class: "", position: { x: 0, y: 1 }, initialPosition: { x: 0, y: 1 } },
-    { id: 19, name: "Bishop", white: false, class: "", position: { x: 0, y: 2 }, initialPosition: { x: 0, y: 2 } },
-    { id: 20, name: "Queen", white: false, class: "", position: { x: 0, y: 3 }, initialPosition: { x: 0, y: 3 } },
-    { id: 21, name: "King", white: false, class: "", position: { x: 0, y: 4 }, initialPosition: { x: 0, y: 4 } },
-    { id: 22, name: "Bishop", white: false, class: "", position: { x: 0, y: 5 }, initialPosition: { x: 0, y: 5 } },
-    { id: 23, name: "Knight", white: false, class: "", position: { x: 0, y: 6 }, initialPosition: { x: 0, y: 6 } },
-    { id: 24, name: "Rook", white: false, class: "", position: { x: 0, y: 7 }, initialPosition: { x: 0, y: 7 } },
+    { id: 1, name: "Rook", white: true, class: "", position: { x: 0, y: 0 }, initialPosition: { x: 0, y: 0 } },
+    { id: 2, name: "Knight", white: true, class: "", position: { x: 0, y: 1 }, initialPosition: { x: 0, y: 1 } },
+    { id: 3, name: "Bishop", white: true, class: "", position: { x: 0, y: 2 }, initialPosition: { x: 0, y: 2 } },
+    { id: 4, name: "Queen", white: true, class: "", position: { x: 0, y: 3 }, initialPosition: { x: 0, y: 3 } },
+    { id: 5, name: "King", white: true, class: "", position: { x: 0, y: 4 }, initialPosition: { x: 0, y: 4 } },
+    { id: 6, name: "Bishop", white: true, class: "", position: { x: 0, y: 5 }, initialPosition: { x: 0, y: 5 } },
+    { id: 7, name: "Knight", white: true, class: "", position: { x: 0, y: 6 }, initialPosition: { x: 0, y: 6 } },
+    { id: 8, name: "Rook", white: true, class: "", position: { x: 0, y: 7 }, initialPosition: { x: 0, y: 7 } },
   ];
   chessboard[1] = Array(8)
-  .fill()
-  .map((_, i) => ({
-    id: i + 25,
-    name: "Pawn",
-    white: false,
-    class: "",
-    position: { x: 1, y: i },
-    initialPosition: { x: 1, y: i },
-  }));
+    .fill()
+    .map((_, i) => ({
+      id: i + 9 + 0,
+      name: "Pawn",
+      white: true,
+      class: "",
+      position: { x: 1, y: i },
+      initialPosition: { x: 1, y: i },
+    }));
+
+  //Black pieces
+  chessboard[7] = [
+    { id: 17, name: "Rook", white: false, class: "", position: { x: 7, y: 0 }, initialPosition: { x: 7, y: 0 } },
+    { id: 18, name: "Knight", white: false, class: "", position: { x: 7, y: 1 }, initialPosition: { x: 7, y: 1 } },
+    { id: 19, name: "Bishop", white: false, class: "", position: { x: 7, y: 2 }, initialPosition: { x: 7, y: 2 } },
+    { id: 20, name: "Queen", white: false, class: "", position: { x: 7, y: 3 }, initialPosition: { x: 7, y: 3 } },
+    { id: 21, name: "King", white: false, class: "", position: { x: 7, y: 4 }, initialPosition: { x: 7, y: 4 } },
+    { id: 22, name: "Bishop", white: false, class: "", position: { x: 7, y: 5 }, initialPosition: { x: 7, y: 5 } },
+    { id: 23, name: "Knight", white: false, class: "", position: { x: 7, y: 6 }, initialPosition: { x: 7, y: 6 } },
+    { id: 24, name: "Rook", white: false, class: "", position: { x: 7, y: 7 }, initialPosition: { x: 7, y: 7 } },
+  ];
+  chessboard[6] = Array(8)
+    .fill()
+    .map((_, i) => ({
+      id: i + 25,
+      name: "Pawn",
+      white: false,
+      class: "",
+      position: { x: 6, y: i },
+      initialPosition: { x: 6, y: i },
+    }));
 
   return chessboard;
 }
@@ -150,7 +150,7 @@ export function createBoardAfterQueenGambit() {
 
 export function createBoardAfterSpanishOpening() {
   let chessboard = createClassicBoard();
-  
+
   chessboard[4][4] = {
     ...chessboard[6][4],
     position: { x: 4, y: 4 },
@@ -191,7 +191,7 @@ export function createBoardAfterSpanishOpening() {
 
 export function createBoardAfterItalianOpening() {
   let chessboard = createClassicBoard();
-  
+
   chessboard[4][4] = {
     ...chessboard[6][4],
     position: { x: 4, y: 4 },
@@ -236,11 +236,11 @@ export const BOX_EMPTY = [];
 export function createBoxWithAllPieces() {
   return createClassicBoard()
     .flat()
-    .filter(piece => piece != null)
-    .map(piece => ({
+    .filter((piece) => piece != null)
+    .map((piece) => ({
       ...piece,
       position: { ...BOX_POSITION },
-      initialPosition: { ...BOX_POSITION }
+      initialPosition: { ...BOX_POSITION },
     }));
 }
 

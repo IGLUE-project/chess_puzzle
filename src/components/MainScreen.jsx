@@ -10,7 +10,6 @@ import "./../assets/scss/MainScreen.scss";
 
 let dropAudio;
 let boxAudio;
-let resetAudio;
 
 export default function MainScreen({ boxPieces, setBoxPieces, resetPieces }) {
   const { appSettings, I18n } = useContext(GlobalContext);
@@ -25,7 +24,6 @@ export default function MainScreen({ boxPieces, setBoxPieces, resetPieces }) {
   useEffect(() => {
     dropAudio = document.getElementById("audio_drop");
     boxAudio = document.getElementById("audio_dropbox");
-    resetAudio = document.getElementById("audio_reset");
 
     const handleResize = () => {
       const windowWidth = window.innerWidth;
@@ -109,25 +107,36 @@ export default function MainScreen({ boxPieces, setBoxPieces, resetPieces }) {
   //evento cuando sueltas una pieza en un recuadro
   const handleDrop = (e, x, y, piece) => {
     e.preventDefault();
-    if (pieceDrag && piece.id === pieceDrag.id) {
+    if (pieceDrag) {
+      if (piece.id === pieceDrag.id) {
+        dropAudio.play();
+      } else {
+        setBoxPieces((prevPieces) => {
+          if (prevPieces.some((p) => p.id === piece.id)) {
+            return prevPieces.map((p) => (p.id === piece.id ? { ...p, class: "" } : p));
+          }
+          return [...prevPieces, { ...piece, class: "", position: BOX_POSITION }];
+        });
+        boxAudio.play();
+      }
+      setBoxPieces((prevPieces) => prevPieces.filter((p) => p.id !== pieceDrag.id));
       dispatch(cleanPiece({ piece: pieceDrag }));
       dispatch(saveSquare({ piece: { ...pieceDrag, class: "", position: { x, y } }, x, y }));
-      setBoxPieces((prevPieces) => prevPieces.filter((p) => p.id !== pieceDrag.id));
-      dropAudio.play();
       setPieceDrag(null);
     }
   };
 
-  function resetPiecesButton() {
-    resetAudio.play();
-    resetPieces();
-  }
-
   return (
-    <div id="MainScreen" className={`screen_wrapper bg-${appSettings.skin} `} style={{ backgroundImage: `url(${appSettings.backgroundImg})` }}>
+    <div
+      id="MainScreen"
+      className={`screen_wrapper bg-${appSettings.skin} `}
+      style={{ backgroundImage: `url(${appSettings.backgroundImg})` }}
+    >
       {!solved && (
         <div className="buttons-container">
-          <button onClick={() => resetPiecesButton()} className={`button-reset`}>{I18n.getTrans("i.reset")}</button>
+          <button onClick={resetPieces} className={`button-reset`}>
+            {I18n.getTrans("i.reset")}
+          </button>
         </div>
       )}
       <div className="frame">
@@ -147,7 +156,6 @@ export default function MainScreen({ boxPieces, setBoxPieces, resetPieces }) {
       <>
         <audio id="audio_drop" src={appSettings.dropAudio} autostart="false" preload="auto" />
         <audio id="audio_dropbox" src={appSettings.discardAudio} autostart="false" preload="auto" />
-        <audio id="audio_reset" src={appSettings.resetAudio} autostart="false" preload="auto" />
       </>
     </div>
   );

@@ -24,6 +24,7 @@ export default function App() {
   const hasExecutedEscappValidation = useRef(false);
   const gameEnded = useRef(false);
   const firstLoad = useRef(true);
+  const solutionSended = useRef(false);
   const [solutionLoaded, setSolutionLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
   const chessboard = useSelector(getChessboard);
@@ -102,14 +103,14 @@ export default function App() {
         (piece) =>
           piece !== null &&
           piece.class === "" &&
-          (piece.position.x !== piece.initialPosition.x || piece.position.y !== piece.initialPosition.y),
+          (piece.position.x !== piece.initialPosition.x || piece.position.y !== piece.initialPosition.y)
       );
 
     const movedBoxPieces = boxPieces.filter(
       (piece) =>
         piece !== null &&
         piece.class === "" &&
-        (piece.position.x !== piece.initialPosition.x || piece.position.y !== piece.initialPosition.y),
+        (piece.position.x !== piece.initialPosition.x || piece.position.y !== piece.initialPosition.y)
     );
 
     const updatedSolution = [...movedPieces, ...movedBoxPieces];
@@ -122,8 +123,9 @@ export default function App() {
   }, [chessboard, boxPieces]);
 
   useEffect(() => {
-    if (appSettings && solution.length === appSettings.solutionLength && !gameEnded.current) {
+    if (appSettings && solution.length === appSettings.solutionLength && !gameEnded.current && !solutionSended.current) {
       checkResult(parseSolution(solution));
+      solutionSended.current = true;
     }
   }, [solution]);
 
@@ -154,7 +156,7 @@ export default function App() {
     if (typeof _appSettings !== "object") {
       _appSettings = {};
     }
-    if((typeof _appSettings.skin === "undefined")&&(typeof DEFAULT_APP_SETTINGS.skin === "string")){
+    if (typeof _appSettings.skin === "undefined" && typeof DEFAULT_APP_SETTINGS.skin === "string") {
       _appSettings.skin = DEFAULT_APP_SETTINGS.skin;
     }
 
@@ -172,17 +174,17 @@ export default function App() {
         newBox = createBoxWithAllPieces();
         break;
       case "QUEEN_GAMBIT":
-       newChessboard = createBoardAfterQueenGambit();
-       newBox = BOX_EMPTY;
-       break;
+        newChessboard = createBoardAfterQueenGambit();
+        newBox = BOX_EMPTY;
+        break;
       case "SPANISH_OPENING":
-       newChessboard = createBoardAfterSpanishOpening();
-       newBox = BOX_EMPTY;
-       break;
+        newChessboard = createBoardAfterSpanishOpening();
+        newBox = BOX_EMPTY;
+        break;
       case "ITALIAN_OPENING":
-       newChessboard = createBoardAfterItalianOpening();
-       newBox = BOX_EMPTY;
-       break;
+        newChessboard = createBoardAfterItalianOpening();
+        newBox = BOX_EMPTY;
+        break;
       case "CUSTOM":
         newBox = _appSettings.customBox.map((piece, index) => ({
           ...piece,
@@ -192,7 +194,7 @@ export default function App() {
           initialPosition: BOX_POSITION,
         }));
 
-        newChessboard = createEmptyBoard(); 
+        newChessboard = createEmptyBoard();
         _appSettings.customBoard.forEach((piece, index) => {
           let position = positionToCoordinates(piece.position);
           newChessboard[position.x][position.y] = {
@@ -238,6 +240,8 @@ export default function App() {
         } catch (e) {
           Utils.log("Error in checkNextPuzzle", e);
         }
+      } else {
+        if (appSettings.resetOnFail) resetPieces();
       }
     });
   }
@@ -255,15 +259,13 @@ export default function App() {
 
     const sol = _solution ? _solution : solution;
 
-    const highlightedIds = sol
-      .filter((piece) => piece.position.x === -1 && piece.position.y === -1)
-      .map((piece) => piece.id);
+    const highlightedIds = sol.filter((piece) => piece.position.x === -1 && piece.position.y === -1).map((piece) => piece.id);
 
     setBoxPieces((prev) =>
       prev.map((p) => ({
         ...p,
         class: highlightedIds.includes(p.id) ? "highlighted" : "",
-      })),
+      }))
     );
 
     sol.forEach(({ position: { x, y } }) => {
@@ -292,47 +294,66 @@ export default function App() {
   }
 
   function loadSolution(solutionStr) {
-    const parsedSolution = solutionStr.split(";").map((entry, index) => {
-      const [name, whiteStr, initialPosStr, currentPosStr] = entry.split(",");
+    const parsedSolution = solutionStr
+      .split(";")
+      .map((entry, index) => {
+        const parts = entry.split(",");
 
-      return {
-        id: (index + 1) * 1000,
-        name,
-        white: whiteStr === "White",
-        class: "",
-        initialPosition: positionToCoordinates(initialPosStr),
-        position: positionToCoordinates(currentPosStr),
-      };
-    });
+        let name;
+        let whiteStr;
+        let initialPosStr;
+        let currentPosStr;
 
-    // Clonamos el estado actual
+        if (parts.length === 4) {
+          // Pieza que viene de la caja
+          [name, whiteStr, initialPosStr, currentPosStr] = parts;
+        } else if (parts.length === 2) {
+          // Pieza que ya estaba en el tablero
+          [initialPosStr, currentPosStr] = parts;
+          name = "";
+          whiteStr = "";
+        } else {
+          Utils.log("⚠️ Entrada inválida en solución:", entry);
+          return null;
+        }
+
+        return {
+          id: (index + 1) * 1000,
+          name,
+          white: whiteStr === "White",
+          class: "",
+          initialPosition: positionToCoordinates(initialPosStr),
+          position: positionToCoordinates(currentPosStr),
+        };
+      })
+      .filter(Boolean); // Elimina los null en caso de errores
+
+    // Resto del código sin cambios
     const newChessboard = chessboard.map((row) => row.map((cell) => (cell ? { ...cell } : null)));
     const newBoxPieces = [...boxPieces.map((p) => ({ ...p }))];
+    const movedPieces = [];
 
     parsedSolution.forEach((solPiece) => {
       const { name, white, initialPosition, position } = solPiece;
       let found = null;
 
-      // 1. Buscar la pieza en el tablero
+      // 1. Buscar en el tablero
       if (
         initialPosition.x >= 0 &&
         initialPosition.y >= 0 &&
         newChessboard[initialPosition.x][initialPosition.y] &&
-        newChessboard[initialPosition.x][initialPosition.y].name === name &&
-        newChessboard[initialPosition.x][initialPosition.y].white === white
+        (!name || newChessboard[initialPosition.x][initialPosition.y].name === name) &&
+        (!name || newChessboard[initialPosition.x][initialPosition.y].white === white)
       ) {
         found = newChessboard[initialPosition.x][initialPosition.y];
         newChessboard[initialPosition.x][initialPosition.y] = null;
       }
 
-      // 2. Si no está en el tablero, buscarla en la caja
-      if (!found) {
+      // 2. Buscar en la caja
+      if (!found && name) {
         const index = newBoxPieces.findIndex(
           (p) =>
-            p.initialPosition.x === initialPosition.x &&
-            p.initialPosition.y === initialPosition.y &&
-            p.name === name &&
-            p.white === white,
+            p.initialPosition.x === initialPosition.x && p.initialPosition.y === initialPosition.y && p.name === name && p.white === white
         );
         if (index !== -1) {
           found = newBoxPieces[index];
@@ -340,17 +361,26 @@ export default function App() {
         }
       }
 
+      // 3. Buscar en las desplazadas
+      if (!found && name) {
+        movedPieces.forEach((p) => {
+          if (initialPosition.x >= 0 && initialPosition.y >= 0 && p.name === name && p.white === white) {
+            found = p;
+          }
+        });
+      }
+
       if (found) {
-        // Mover la pieza a su posición final
         found.initialPosition = initialPosition;
         found.position = position;
 
         if (position.x === -1 && position.y === -1) {
           found.position = BOX_POSITION;
           found.initialPosition = BOX_POSITION;
-          newBoxPieces.push(solPiece);
+          newBoxPieces.push(found);
         } else {
-          newChessboard[position.x][position.y] = solPiece;
+          if (newChessboard[position.x][position.y]) movedPieces.push(newChessboard[position.x][position.y]);
+          newChessboard[position.x][position.y] = found;
         }
       } else {
         Utils.log("⚠️ Pieza no encontrada para mover:", solPiece);
@@ -366,30 +396,38 @@ export default function App() {
 
   function parseSolution(solution) {
     return solution
-      .map(
-        (piece) =>
-          `${piece.name},${piece.white ? "White" : "Black"},${coordinatesToPosition(
-            piece.initialPosition.x,
-            piece.initialPosition.y,
-          )},${coordinatesToPosition(piece.position.x, piece.position.y)}`,
-      )
+      .map((piece) => {
+        const from = coordinatesToPosition(piece.initialPosition.x, piece.initialPosition.y);
+        const to = coordinatesToPosition(piece.position.x, piece.position.y);
+
+        // Si su origen es box, necesitamos saber que pieza es
+        if (piece.initialPosition.x === -1 && piece.initialPosition.y === -1) {
+          const color = piece.white ? "White" : "Black";
+          return `${piece.name},${color},${from},${to}`;
+        }
+
+        return `${from},${to}`;
+      })
       .join(";");
   }
 
   const resetPieces = () => {
     setAppSettings(processAppSettings(escapp.getAppSettings()));
+    document.getElementById("audio_reset").play();
+    solutionSended.current = false;
   };
 
   return (
     <div
       id="global_wrapper"
-      className={`${
-        appSettings !== null && typeof appSettings.skin === "string" ? appSettings.skin.toLowerCase() : ""
-      }`}
+      className={`${appSettings !== null && typeof appSettings.skin === "string" ? appSettings.skin.toLowerCase() : ""}`}
     >
       <div className={`main-background ${fail ? "fail" : ""}`}>
         {!loading && (
-          <MainScreen boxPieces={boxPieces} setBoxPieces={setBoxPieces} resetPieces={resetPieces} />
+          <>
+            <MainScreen boxPieces={boxPieces} setBoxPieces={setBoxPieces} resetPieces={resetPieces} />
+            <audio id="audio_reset" src={appSettings.resetAudio} autostart="false" preload="auto" />
+          </>
         )}
       </div>
     </div>
