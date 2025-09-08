@@ -20,7 +20,8 @@ import MainScreen from "./MainScreen.jsx";
 import "./../assets/scss/app.scss";
 
 export default function App() {
-  const { escapp, setEscapp, appSettings, setAppSettings, Storage, setStorage, Utils, I18n } = useContext(GlobalContext);
+  const { escapp, setEscapp, appSettings, setAppSettings, Storage, setStorage, Utils, I18n } =
+    useContext(GlobalContext);
   const hasExecutedEscappValidation = useRef(false);
   const gameEnded = useRef(false);
   const firstLoad = useRef(true);
@@ -103,14 +104,14 @@ export default function App() {
         (piece) =>
           piece !== null &&
           piece.class === "" &&
-          (piece.position.x !== piece.initialPosition.x || piece.position.y !== piece.initialPosition.y)
+          (piece.position.x !== piece.initialPosition.x || piece.position.y !== piece.initialPosition.y),
       );
 
     const movedBoxPieces = boxPieces.filter(
       (piece) =>
         piece !== null &&
         piece.class === "" &&
-        (piece.position.x !== piece.initialPosition.x || piece.position.y !== piece.initialPosition.y)
+        (piece.position.x !== piece.initialPosition.x || piece.position.y !== piece.initialPosition.y),
     );
 
     const updatedSolution = [...movedPieces, ...movedBoxPieces];
@@ -123,7 +124,12 @@ export default function App() {
   }, [chessboard, boxPieces]);
 
   useEffect(() => {
-    if (appSettings && solution.length === appSettings.solutionLength && !gameEnded.current && !solutionSended.current) {
+    if (
+      appSettings &&
+      solution.length === appSettings.solutionLength &&
+      !gameEnded.current &&
+      !solutionSended.current
+    ) {
       checkResult(parseSolution(solution));
       solutionSended.current = true;
     }
@@ -259,13 +265,15 @@ export default function App() {
 
     const sol = _solution ? _solution : solution;
 
-    const highlightedIds = sol.filter((piece) => piece.position.x === -1 && piece.position.y === -1).map((piece) => piece.id);
+    const highlightedIds = sol
+      .filter((piece) => piece.position.x === -1 && piece.position.y === -1)
+      .map((piece) => piece.id);
 
     setBoxPieces((prev) =>
       prev.map((p) => ({
         ...p,
         class: highlightedIds.includes(p.id) ? "highlighted" : "",
-      }))
+      })),
     );
 
     sol.forEach(({ position: { x, y } }) => {
@@ -336,16 +344,20 @@ export default function App() {
     parsedSolution.forEach((solPiece) => {
       const { name, white, initialPosition, position } = solPiece;
       let found = null;
+      let tablePiece = null;
+
+      if (initialPosition.x >= 0 && initialPosition.y >= 0)
+        tablePiece = newChessboard[initialPosition.x][initialPosition.y];
 
       // 1. Buscar en el tablero
       if (
-        initialPosition.x >= 0 &&
-        initialPosition.y >= 0 &&
-        newChessboard[initialPosition.x][initialPosition.y] &&
-        (!name || newChessboard[initialPosition.x][initialPosition.y].name === name) &&
-        (!name || newChessboard[initialPosition.x][initialPosition.y].white === white)
+        tablePiece &&
+        tablePiece.initialPosition.x === tablePiece.position.x &&
+        tablePiece.initialPosition.y === tablePiece.position.y &&
+        (!name || tablePiece.name === name) &&
+        (!name || tablePiece.white === white)
       ) {
-        found = newChessboard[initialPosition.x][initialPosition.y];
+        found = tablePiece;
         newChessboard[initialPosition.x][initialPosition.y] = null;
       }
 
@@ -353,7 +365,10 @@ export default function App() {
       if (!found && name) {
         const index = newBoxPieces.findIndex(
           (p) =>
-            p.initialPosition.x === initialPosition.x && p.initialPosition.y === initialPosition.y && p.name === name && p.white === white
+            p.initialPosition.x === initialPosition.x &&
+            p.initialPosition.y === initialPosition.y &&
+            p.name === name &&
+            p.white === white,
         );
         if (index !== -1) {
           found = newBoxPieces[index];
@@ -362,9 +377,9 @@ export default function App() {
       }
 
       // 3. Buscar en las desplazadas
-      if (!found && name) {
+      if (!found) {
         movedPieces.forEach((p) => {
-          if (initialPosition.x >= 0 && initialPosition.y >= 0 && p.name === name && p.white === white) {
+          if (initialPosition.x === p.initialPosition.x && initialPosition.y === p.initialPosition.y) {
             found = p;
           }
         });
@@ -375,8 +390,6 @@ export default function App() {
         found.position = position;
 
         if (position.x === -1 && position.y === -1) {
-          found.position = BOX_POSITION;
-          found.initialPosition = BOX_POSITION;
           newBoxPieces.push(found);
         } else {
           if (newChessboard[position.x][position.y]) movedPieces.push(newChessboard[position.x][position.y]);
@@ -420,7 +433,9 @@ export default function App() {
   return (
     <div
       id="global_wrapper"
-      className={`${appSettings !== null && typeof appSettings.skin === "string" ? appSettings.skin.toLowerCase() : ""}`}
+      className={`${
+        appSettings !== null && typeof appSettings.skin === "string" ? appSettings.skin.toLowerCase() : ""
+      }`}
     >
       <div className={`main-background ${fail ? "fail" : ""}`}>
         {!loading && (
