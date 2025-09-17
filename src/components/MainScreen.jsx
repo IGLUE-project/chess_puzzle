@@ -11,7 +11,7 @@ import "./../assets/scss/MainScreen.scss";
 let dropAudio;
 let boxAudio;
 
-export default function MainScreen({ boxPieces, setBoxPieces, resetPieces }) {
+export default function MainScreen({ boxPieces, setBoxPieces, resetPieces, addMove }) {
   const { appSettings, I18n } = useContext(GlobalContext);
   const dispatch = useDispatch();
   const [pieceDrag, setPieceDrag] = useState(null);
@@ -47,10 +47,6 @@ export default function MainScreen({ boxPieces, setBoxPieces, resetPieces }) {
 
   //Evento cuando coges una pieza
   const handleDragStart = (e, piece) => {
-    //Prevent browser cursor default img
-    // const emptyImg = new Image();
-    // emptyImg.src = '';
-    // e.dataTransfer.setDragImage(emptyImg, 0, 0);
     e.dataTransfer.effectAllowed = "move";
 
     setPieceDrag({ ...piece, class: "dragged" });
@@ -60,7 +56,7 @@ export default function MainScreen({ boxPieces, setBoxPieces, resetPieces }) {
           return { ...p, class: "dragged" };
         }
         return p;
-      })
+      }),
     );
   };
 
@@ -71,12 +67,13 @@ export default function MainScreen({ boxPieces, setBoxPieces, resetPieces }) {
       if (!(piece.position.x === pieceDrag.x && piece.position.y === pieceDrag.y)) {
         setBoxPieces((prevPieces) => {
           if (prevPieces.some((p) => p.id === piece.id)) {
-            return prevPieces.map((p) => (p.id === piece.id ? { ...p, class: "" } : p));
+            return prevPieces.map((p) => (p.id === piece.id ? { ...p, class: "", moved: true } : p));
           }
-          return [...prevPieces, { ...piece, class: "", position: BOX_POSITION }];
+          return [...prevPieces, { ...piece, class: "", position: BOX_POSITION, moved: true }];
         });
         dispatch(cleanPiece({ piece }));
         boxAudio.play();
+        addMove(pieceDrag, { ...piece, class: "", position: BOX_POSITION });
       }
     }
     setPieceDrag(null);
@@ -121,8 +118,9 @@ export default function MainScreen({ boxPieces, setBoxPieces, resetPieces }) {
       }
       setBoxPieces((prevPieces) => prevPieces.filter((p) => p.id !== pieceDrag.id));
       dispatch(cleanPiece({ piece: pieceDrag }));
-      dispatch(saveSquare({ piece: { ...pieceDrag, class: "", position: { x, y } }, x, y }));
+      dispatch(saveSquare({ piece: { ...pieceDrag, class: "", position: { x, y }, moved: true }, x, y }));
       setPieceDrag(null);
+      addMove(pieceDrag, { ...pieceDrag, class: "", position: { x, y } });
     }
   };
 

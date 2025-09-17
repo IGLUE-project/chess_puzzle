@@ -8,7 +8,11 @@ export default function Piece({ piece, handleDragStart, handleDragEnd }) {
   const solved = useSelector(getIsSolved);
 
   return (
-    <div className={`Piece ${piece.name.toLowerCase()} ${piece.class} ${solved ? " solved" : ""}`}>
+    <div
+      className={`Piece ${piece.name.toLowerCase()} ${piece.class} ${solved ? " solved" : ""} ${
+        piece.moved ? " moved" : ""
+      }`}
+    >
       <img
         draggable={!solved}
         onDragStart={(e) => {

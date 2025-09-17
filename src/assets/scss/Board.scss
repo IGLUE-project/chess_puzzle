@@ -56,7 +56,7 @@ div.Piece {
   &:active:not(.solved) {
     cursor: grabbing;
   }
-  &.highlighted {
+  &.solved.moved {
     animation: glow 1.5s infinite ease-in-out;
   }
 }
