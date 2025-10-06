@@ -69,7 +69,7 @@ export function createEmptyBoard() {
   return Array(8)
     .fill()
     .map(() => Array(8).fill(null));
-}
+};
 
 export function createClassicBoard() {
   let chessboard = createEmptyBoard();
@@ -119,17 +119,10 @@ export function createClassicBoard() {
     }));
 
   return chessboard;
-}
+};
 
 export function createBoardAfterQueenGambit() {
   let chessboard = createClassicBoard();
-
-  chessboard[4][3] = {
-    ...chessboard[6][3],
-    position: { x: 4, y: 3 },
-    initialPosition: { x: 4, y: 3 },
-  };
-  chessboard[6][3] = null;
 
   chessboard[3][3] = {
     ...chessboard[1][3],
@@ -138,26 +131,26 @@ export function createBoardAfterQueenGambit() {
   };
   chessboard[1][3] = null;
 
-  chessboard[4][2] = {
-    ...chessboard[6][2],
-    position: { x: 4, y: 2 },
-    initialPosition: { x: 4, y: 2 },
+  chessboard[4][3] = {
+    ...chessboard[6][3],
+    position: { x: 4, y: 3 },
+    initialPosition: { x: 4, y: 3 },
   };
-  chessboard[6][2] = null;
+  chessboard[6][3] = null;
+
+  chessboard[3][2] = {
+    ...chessboard[1][2],
+    position: { x: 3, y: 2 },
+    initialPosition: { x: 3, y: 2 },
+  };
+  chessboard[1][2] = null;
 
   return chessboard;
-}
+};
 
 export function createBoardAfterSpanishOpening() {
   let chessboard = createClassicBoard();
 
-  chessboard[4][4] = {
-    ...chessboard[6][4],
-    position: { x: 4, y: 4 },
-    initialPosition: { x: 4, y: 4 },
-  };
-  chessboard[6][4] = null;
-
   chessboard[3][4] = {
     ...chessboard[1][4],
     position: { x: 3, y: 4 },
@@ -165,40 +158,40 @@ export function createBoardAfterSpanishOpening() {
   };
   chessboard[1][4] = null;
 
-  chessboard[5][5] = {
-    ...chessboard[7][6],
-    position: { x: 5, y: 5 },
-    initialPosition: { x: 5, y: 5 },
+  chessboard[4][4] = {
+    ...chessboard[6][4],
+    position: { x: 4, y: 4 },
+    initialPosition: { x: 4, y: 4 },
   };
-  chessboard[7][6] = null;
+  chessboard[6][4] = null;
 
-  chessboard[2][2] = {
-    ...chessboard[0][1],
-    position: { x: 2, y: 2 },
-    initialPosition: { x: 2, y: 2 },
+  chessboard[2][5] = {
+    ...chessboard[0][6],
+    position: { x: 2, y: 5 },
+    initialPosition: { x: 2, y: 5 },
   };
-  chessboard[0][1] = null;
+  chessboard[0][6] = null;
 
-  chessboard[3][1] = {
-    ...chessboard[7][5],
-    position: { x: 3, y: 1 },
-    initialPosition: { x: 3, y: 1 },
+  chessboard[5][2] = {
+    ...chessboard[7][1],
+    position: { x: 5, y: 2 },
+    initialPosition: { x: 5, y: 2 },
   };
-  chessboard[7][5] = null;
+  chessboard[7][1] = null;
+
+  chessboard[4][1] = {
+    ...chessboard[0][5],
+    position: { x: 4, y: 1 },
+    initialPosition: { x: 4, y: 1 },
+  };
+  chessboard[0][5] = null;
 
   return chessboard;
-}
+};
 
 export function createBoardAfterItalianOpening() {
   let chessboard = createClassicBoard();
 
-  chessboard[4][4] = {
-    ...chessboard[6][4],
-    position: { x: 4, y: 4 },
-    initialPosition: { x: 4, y: 4 },
-  };
-  chessboard[6][4] = null;
-
   chessboard[3][4] = {
     ...chessboard[1][4],
     position: { x: 3, y: 4 },
@@ -206,29 +199,36 @@ export function createBoardAfterItalianOpening() {
   };
   chessboard[1][4] = null;
 
-  chessboard[5][5] = {
-    ...chessboard[7][6],
-    position: { x: 5, y: 5 },
-    initialPosition: { x: 5, y: 5 },
+  chessboard[4][4] = {
+    ...chessboard[6][4],
+    position: { x: 4, y: 4 },
+    initialPosition: { x: 4, y: 4 },
   };
-  chessboard[7][6] = null;
+  chessboard[6][4] = null;
 
-  chessboard[2][2] = {
-    ...chessboard[0][1],
-    position: { x: 2, y: 2 },
-    initialPosition: { x: 2, y: 2 },
+  chessboard[2][5] = {
+    ...chessboard[0][6],
+    position: { x: 2, y: 5 },
+    initialPosition: { x: 2, y: 5 },
   };
-  chessboard[0][1] = null;
+  chessboard[0][6] = null;
 
-  chessboard[4][2] = {
-    ...chessboard[7][5],
-    position: { x: 4, y: 2 },
-    initialPosition: { x: 4, y: 2 },
+  chessboard[5][2] = {
+    ...chessboard[7][1],
+    position: { x: 5, y: 2 },
+    initialPosition: { x: 5, y: 2 },
   };
-  chessboard[7][5] = null;
+  chessboard[7][1] = null;
+
+  chessboard[3][2] = {
+    ...chessboard[0][5],
+    position: { x: 3, y: 2 },
+    initialPosition: { x: 3, y: 2 },
+  };
+  chessboard[0][5] = null;
 
   return chessboard;
-}
+};
 
 export const BOX_POSITION = { x: -1, y: -1 };
 export const BOX_EMPTY = [];
@@ -242,7 +242,7 @@ export function createBoxWithAllPieces() {
       position: { ...BOX_POSITION },
       initialPosition: { ...BOX_POSITION },
     }));
-}
+};
 
 export const ESCAPP_CLIENT_SETTINGS = {
   imagesPath: "./images/",

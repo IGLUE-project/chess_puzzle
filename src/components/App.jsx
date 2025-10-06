@@ -335,7 +335,7 @@ export default function App() {
           newChessboard[position.x][position.y] = { ...found, moved: true };
         }
       } else {
-        Utils.log("⚠️ Pieza no encontrada para mover:", solPiece);
+        //Utils.log("⚠️ Pieza no encontrada para mover:", solPiece);
       }
     });
 
