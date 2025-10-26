@@ -94,7 +94,7 @@ export default function App() {
 
   useEffect(() => {
     if (
-      appSettings &&
+      appSettings && appSettings.solutionLength && appSettings.solutionLength > 0 &&
       moves.split(";").length === appSettings.solutionLength &&
       !gameEnded.current &&
       !solutionSended.current
