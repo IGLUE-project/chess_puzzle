@@ -2,8 +2,7 @@ export const DEFAULT_APP_SETTINGS = {
   skin: "STANDARD",
   actionWhenLoadingIfSolved: true,
   initialSetup: "CLASSIC",
-  resetOnFail: false,
-
+  resetOnFail: "FALSE",
   backgroundImg: "images/background_standard.png",
   chessboardImg: "images/board_standard.png",
   boxImg: "images/box_standard.png",

@@ -99,8 +99,8 @@ export default function App() {
       !gameEnded.current &&
       !solutionSended.current
     ) {
-      checkResult(moves);
       solutionSended.current = true;
+      checkResult(moves);
     }
   }, [moves]);
 
@@ -190,6 +190,8 @@ export default function App() {
     setBoxPieces(newBox);
     dispatch(saveChessboard(newChessboard));
 
+    _appSettings.resetOnFailBoolean = (_appSettings.resetOnFail === "TRUE");
+
     //Init internacionalization module
     I18n.init(_appSettings);
 
@@ -216,7 +218,7 @@ export default function App() {
           Utils.log("Error in checkNextPuzzle", e);
         }
       } else {
-        if (appSettings.resetOnFail) resetPieces();
+        if (appSettings.resetOnFailBoolean) resetPieces();
       }
     });
   }
