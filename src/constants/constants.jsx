@@ -2,8 +2,7 @@ export const DEFAULT_APP_SETTINGS = {
   skin: "STANDARD",
   actionWhenLoadingIfSolved: true,
   initialSetup: "CLASSIC",
-  resetOnFail: false,
-
+  resetOnFail: "FALSE",
   backgroundImg: "images/background_standard.png",
   chessboardImg: "images/board_standard.png",
   boxImg: "images/box_standard.png",
@@ -30,6 +29,7 @@ export const SKIN_SETTINGS = {
   STANDARD: {},
   REALISTIC: {
     chessboardImg: "images/board_realistic.png",
+    boxImg: "images/box_realistic.png",
     pawn_white_img: "images/Pawn_white_realistic.png",
     pawn_black_img: "images/Pawn_black_realistic.png",
     rook_white_img: "images/Rook_white_realistic.png",
