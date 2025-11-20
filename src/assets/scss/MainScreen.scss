@@ -1,5 +1,5 @@
 #MainScreen {
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 
@@ -21,7 +21,7 @@
 }
 
 .button-reset {
-  border: 1px solid #ddd; 
+  border: 1px solid #ddd;
   background-color: black;
   color: #ddd;
 }
