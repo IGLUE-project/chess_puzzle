@@ -6,6 +6,6 @@ export let LOCALES = {
     "i.reset":"Reiniciar",
   },
   sr:{
-    "i.continue":"Reset",
+    "i.reset":"Reset",
   },
 };
